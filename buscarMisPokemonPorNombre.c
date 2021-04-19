@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hashmap.h"
-
+#include "Map.h"
 typedef struct{
 	int id;
 	char* nombre;
 	int PC;
 	int PS;
-	char sexo;
+	char* sexo;
 }Pokemon_usuario;
 
 typedef struct{
