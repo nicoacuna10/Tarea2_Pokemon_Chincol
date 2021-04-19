@@ -104,6 +104,7 @@ Map *importarExportarPokemonDesdeUnArchivo(Map *MapaPokemon, char *nombre_archiv
 
 		//CERRRAR ARCHIVO EXPORTADO //
 		fclose(nombre_archivo);
+                return MapaPokemon;
 	}
 	
 	//IMPORTAR ARCHIVO .CSV//
