@@ -35,7 +35,7 @@ struct Map {
     /*! Puntero al final (cola) de la lista */
     Node * tail;
 
-    /*! Punteor para poder recorrer la lista */
+    /*! Puntero para poder recorrer la lista */
     Node * current;
 
     int (*is_equal)(void* key1, void* key2);

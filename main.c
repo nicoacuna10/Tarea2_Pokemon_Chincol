@@ -22,9 +22,9 @@ typedef struct{
 }Pokedex;
 
 void menu(int *opcion);
-/*
-void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo);
-void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
+
+void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
+/*void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
 void evolucionarPokemon(int id);
 void buscarMisPokemonPorTipo(char* tipo);
 void buscarMisPokemonPorNombre(char* nombre);
@@ -35,14 +35,15 @@ void liberarPokemon(int id);
 void mostrarPokemonPorRegion(char* region);*/
 
 int main(void){
-	int opcionElegida;
-
+	int opcionElegida, totalPokemon = 0;
+	char *nombre_archivo;
+	Map *MapaPokemon;
 
 
 	do{
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
-		///if(opcionElegida == 1) importarExportarPokemonDesdeUnArchivo();
+		if(opcionElegida == 1) importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon);
 		//if(opcionElegida == 2) pokemonAtrapado();
 		//if(opcionElegida == 3) evolucionarPokemon();
 		//if(opcionElegida == 4) buscarMisPokemonPorTipo();
