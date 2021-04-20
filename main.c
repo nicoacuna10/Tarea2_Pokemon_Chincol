@@ -36,7 +36,7 @@ void mostrarPokemonPorRegion(char* region);*/
 
 int main(void){
 	int opcionElegida, totalPokemon = 0;
-	char *nombre_archivo;
+	char nombre_archivo[100];
 	Map *MapaPokemon;
 
 

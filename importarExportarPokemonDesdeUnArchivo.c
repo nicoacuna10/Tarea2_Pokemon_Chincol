@@ -89,19 +89,30 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	MapaPokemon = createMap(is_equal_int);
 
 	char opcionIoE[100];
-	printf("\nImportar (1) o Exportar (2) archivo .csv: ");
-	scanf("%[^\n]s", opcionIoE);
-    getchar();
-	
+	do{
+		memset(opcionIoE, '\0', 100);
+		printf("\nopcion 1: Importar archivo.csv\n");
+		printf("opcion 2: Exportar archivo .csv\n");
+		printf("Ingrese opcion: ");
+		scanf("%[^\n]s", opcionIoE);
+		getchar();
+
+		if(opcionIoE[1] != '\0'){
+			printf("\nPor favor ingrese opcion valida\n");
+		}
+
+	}while( (opcionIoE[0] < '1') || (opcionIoE[0] > '2'));
+
 
 	//EXPORTAR ARCHIVO .CSV//
-	if(opcionIoE[0] == 2){
+	if(opcionIoE[0] == '2'){
 		if(MapaPokemon == NULL){
 			printf("\nImportar!\n");
 			return MapaPokemon;
 		}
 		printf("\nIngrese nombre del archivo .csv: ");
-		scanf("%s", nombre_archivo);
+		scanf("%[^\n]s", nombre_archivo);
+		getchar();
 
 		//ABIR ARCHIVO A EXPORTAR //
 		FILE *fp = fopen(nombre_archivo, "r+");
@@ -126,6 +137,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 
 		//CERRRAR ARCHIVO EXPORTADO //
 		fclose(fp);
+		printf("\nArchivo .csv creado con exito!\n");
 		return MapaPokemon;
 	}
 	
@@ -163,7 +175,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	P->Px->evolucionPrevia = malloc(20*sizeof(char));
 	P->Px->nombre = malloc(50*sizeof(char));
 	P->Px->region = malloc(20*sizeof(char));
-	P->Px->tipo = malloc(20*sizeof(char));
+	P->Px->tipo = malloc(30*sizeof(char));
 
 	//LECTURA DE DATOS POR LINEA //
 	while( fgets(linea, 1000, fp) != NULL){
@@ -178,7 +190,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 				aux = get_csv_field(linea,i);
 				P->PokUser->id = atoi(aux);
 
-				printf("\n%d\n", P->PokUser->id);
+				printf("\n%d ", P->PokUser->id);
 			}
 
 			//NOMBRE
@@ -186,14 +198,14 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 				P->PokUser->nombre = get_csv_field(linea,i);
 				strcpy(P->Px->nombre, P->PokUser->nombre);
 
-				printf("\n%s\n\n%s\n", P->PokUser->nombre, P->Px->nombre);
+				printf("%s %s ", P->PokUser->nombre, P->Px->nombre);
 			}
 
 			//TIPO
 			if(i == 2){
 				P->Px->tipo = get_csv_field(linea,i);
 
-				printf("\n%s\n", P->Px->tipo);
+				printf("%s ", P->Px->tipo);
 			}
 
 			//PC
@@ -201,36 +213,36 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 				aux = get_csv_field(linea,i);
 				P->PokUser->PC = atoi(aux);
 
-				printf("\n%d\n", P->PokUser->PC);
+				printf("%d ", P->PokUser->PC);
 			}
 
 			//PS
 			if(i == 4){
 				aux = get_csv_field(linea,i);
-				P->PokUser->PC = atoi(aux);
+				P->PokUser->PS = atoi(aux);
 
-				printf("\n%d\n", P->PokUser->PS);
+				printf("%d ", P->PokUser->PS);
 			}
 
 			//SEXO
 			if(i == 5){
 				P->PokUser->sexo = get_csv_field(linea,i);
 
-				printf("\n%s\n", P->PokUser->sexo);
+				printf("%s ", P->PokUser->sexo);
 			}
 
 			//EVOLUCION PREVIA
 			if(i == 6){
 				P->Px->evolucionPrevia = get_csv_field(linea,i);
 
-				printf("\n%s\n", P->Px->evolucionPrevia);
+				printf("%s ", P->Px->evolucionPrevia);
 			}
 
 			//EVOLUCION POSTERIOR
 			if(i == 7){
 				P->Px->evolucionPosterior = get_csv_field(linea,i);
 
-				printf("\n%s\n", P->Px->evolucionPosterior);
+				printf("%s ", P->Px->evolucionPosterior);
 			}
 
 			//NUMERO POKEDEX
@@ -238,14 +250,14 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 				aux = get_csv_field(linea,i);
 				P->Px->numeroPokedex = atoi(aux);
 
-				printf("\n%d\n", P->Px->numeroPokedex);
+				printf("%d ", P->Px->numeroPokedex);
 			}
 
 			//REGION
 			if(i == 9){
 				P->Px->region = get_csv_field(linea,i);
 
-				printf("\n%s\n", P->Px->region);
+				printf("%s\n", P->Px->region);
 			}
 
 		}
