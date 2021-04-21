@@ -21,12 +21,35 @@ typedef struct{
 	char* region;
 }Pokedex;
 
+typedef struct{
+	Pokemon_usuario* PokUser; 
+	Pokedex* Px;
+}infoPokemon;
+
+/*
+  función para comparar claves de tipo string
+  retorna 1 si son iguales
+*/
+int is_equal_string(void * key1, void * key2) {
+    if(strcmp((char*)key1, (char*)key2)==0) return 1;
+    return 0;
+}
+
+/*
+  función para comparar claves de tipo string
+  retorna 1 si son key1<key2
+*/
+int lower_than_string(void * key1, void * key2) {
+    if(strcmp((char*)key1, (char*)key2) < 0) return 1;
+    return 0;
+}
+
 void menu(int *opcion);
 
 void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
 //*void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
 //void evolucionarPokemon(int id);
-//void buscarMisPokemonPorTipo(char* tipo);
+void buscarMisPokemonPorTipo(char tipo[20], Map *Pokemon_tipo);
 //void buscarMisPokemonPorNombre(char* nombre);
 //void buscarPorNombreEnPokedex(char* nombre);
 void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
@@ -37,8 +60,8 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
 int main(void){
 	int opcionElegida, totalPokemon = 0;
 	char nombre_archivo[100];
-	Map *MapaPokemon;
-
+	Map *MapaPokemon, *Pokemon_tipo;
+	char tipo[20];
 
 	do{
 		menu(&opcionElegida);
@@ -46,7 +69,18 @@ int main(void){
 		if(opcionElegida == 1) MapaPokemon = importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon);
 		//if(opcionElegida == 2) pokemonAtrapado();
 		//if(opcionElegida == 3) evolucionarPokemon();
-		//if(opcionElegida == 4) buscarMisPokemonPorTipo();
+		if(opcionElegida == 4){
+			//CREAR MAPA //
+			Pokemon_tipo = createMap(is_equal_string);
+
+			//INSERTAR DATOS EN MAPA CON CLAVE TIPO // 
+			infoPokemon *aux = (infoPokemon*) firstMap(MapaPokemon);
+			while(aux != NULL){
+				insertMap(Pokemon_tipo, aux->Px->tipo, aux);
+				aux = (infoPokemon*) nextMap(MapaPokemon);
+			}
+			buscarMisPokemonPorTipo(tipo, Pokemon_tipo);
+		}
 		//if(opcionElegida == 5) buscarMisPokemonPorNombre();
 		//if(opcionElegida == 6) buscarPorNombreEnPokedex();
 		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(MapaPokemon, totalPokemon);

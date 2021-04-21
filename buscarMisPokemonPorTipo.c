@@ -21,7 +21,22 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-void buscarMisPokemonPorTipo(char* tipo){
+typedef struct{
+	Pokemon_usuario* PokUser; 
+	Pokedex* Px;
+}infoPokemon;
 
+void buscarMisPokemonPorTipo(char tipo[20], Map *Pokemon_tipo){
+	
+	printf("\nIngrese tipo de Pokemon a buscar: ");
+	scanf("%[^\n]s", tipo);
+	getchar();
+
+	//BUSQUEDA DE POKEMON POR TIPO - NO SE COMO BUSCAR MAS DE UNO :( //
+	infoPokemon *P = searchMap(Pokemon_tipo,tipo);
+	if(P){
+		printf("\n%s %d %d\n", P->PokUser->nombre, P->PokUser->PC, P->PokUser->PS);
+	}
+	else printf("\nNO EXISTE POKEMON DE TIPO INGRESADO\n");
 	return;
 }

@@ -118,8 +118,9 @@ void insertMap(Map * list, void * key, void * value){
     }
 
 
-    while(aux->next && list->lower_than(aux->next->key,key)==1)
+    while(aux->next && list->lower_than(aux->next->key,key)==1){
         aux=aux->next;
+    }
     
     list->current = aux;
 
