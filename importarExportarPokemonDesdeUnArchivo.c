@@ -137,7 +137,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 
 		//CERRRAR ARCHIVO EXPORTADO //
 		fclose(fp);
-		printf("\nArchivo .csv creado con exito!\n");
+		printf("\nArchivo .csv exportado con exito!\n");
 		return MapaPokemon;
 	}
 	
@@ -267,5 +267,6 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	}
 	//CERRAR ARCHIVO IMPORTADO//
 	fclose(fp);
+	printf("Importacion realizada con exito\n\n");
 	return MapaPokemon;
 }

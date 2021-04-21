@@ -24,15 +24,15 @@ typedef struct{
 void menu(int *opcion);
 
 void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
-/*void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
-void evolucionarPokemon(int id);
-void buscarMisPokemonPorTipo(char* tipo);
-void buscarMisPokemonPorNombre(char* nombre);
-void buscarPorNombreEnPokedex(char* nombre);
-void mostrarTodosLosPokemonDeLaPokedex();
-void mostrarPokemonPorMayorPC();
-void liberarPokemon(int id);
-void mostrarPokemonPorRegion(char* region);*/
+//*void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
+//void evolucionarPokemon(int id);
+//void buscarMisPokemonPorTipo(char* tipo);
+//void buscarMisPokemonPorNombre(char* nombre);
+//void buscarPorNombreEnPokedex(char* nombre);
+void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
+//void mostrarPokemonPorMayorPC();
+//void liberarPokemon(int id);
+//void mostrarPokemonPorRegion(char* region);
 
 int main(void){
 	int opcionElegida, totalPokemon = 0;
@@ -43,13 +43,13 @@ int main(void){
 	do{
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
-		if(opcionElegida == 1) importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon);
+		if(opcionElegida == 1) MapaPokemon = importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon);
 		//if(opcionElegida == 2) pokemonAtrapado();
 		//if(opcionElegida == 3) evolucionarPokemon();
 		//if(opcionElegida == 4) buscarMisPokemonPorTipo();
 		//if(opcionElegida == 5) buscarMisPokemonPorNombre();
 		//if(opcionElegida == 6) buscarPorNombreEnPokedex();
-		//if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPodex();
+		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(MapaPokemon, totalPokemon);
 		//if(opcionElegida == 8) mostrarPokemonPorMayorPc();
 		//if(opcionElegida == 9) liberarPokemon();
 		//if(opcionElegida == 10) mostrarPokemonPorRegion();
