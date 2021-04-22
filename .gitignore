@@ -2,7 +2,7 @@ bin/*
 obj/*
 
 main
-*.exe
+exe
 *.out
 *.app
 *.i*86
