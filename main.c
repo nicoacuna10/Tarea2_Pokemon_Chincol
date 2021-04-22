@@ -49,7 +49,7 @@ void menu(int *opcion);
 void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
 //*void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
 //void evolucionarPokemon(int id);
-void buscarMisPokemonPorTipo(char tipo[20], Map *Pokemon_tipo);
+void buscarMisPokemonPorTipo(char tipo[20], Map *MapaPokemon);
 //void buscarMisPokemonPorNombre(char* nombre);
 //void buscarPorNombreEnPokedex(char* nombre);
 void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
@@ -70,7 +70,7 @@ int main(void){
 		//if(opcionElegida == 2) pokemonAtrapado();
 		//if(opcionElegida == 3) evolucionarPokemon();
 		if(opcionElegida == 4){
-			//CREAR MAPA //
+			/*//CREAR MAPA //
 			Pokemon_tipo = createMap(is_equal_string);
 
 			//INSERTAR DATOS EN MAPA CON CLAVE TIPO // 
@@ -79,7 +79,17 @@ int main(void){
 				insertMap(Pokemon_tipo, aux->Px->tipo, aux);
 				aux = (infoPokemon*) nextMap(MapaPokemon);
 			}
-			buscarMisPokemonPorTipo(tipo, Pokemon_tipo);
+
+			// Testing
+			int i = 1;
+			aux = (infoPokemon*) firstMap(Pokemon_tipo);
+			while(aux != NULL){
+				printf("\n%d - %s - %d - %d - %s\n", i, aux->PokUser->nombre, aux->PokUser->PC, aux->PokUser->PS, aux->Px->tipo);
+				aux = (infoPokemon*) nextMap(Pokemon_tipo);
+				i++;
+			}
+			//*/
+			buscarMisPokemonPorTipo(tipo, MapaPokemon);
 		}
 		//if(opcionElegida == 5) buscarMisPokemonPorNombre();
 		//if(opcionElegida == 6) buscarPorNombreEnPokedex();
