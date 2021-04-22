@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <assert.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include "Map.h"
 
@@ -27,16 +29,29 @@ typedef struct{
 }infoPokemon;
 
 void buscarMisPokemonPorTipo(char tipo[20], Map *Pokemon_tipo){
-	
+	bool existeTipoDePokemon = false;	
+
 	printf("\nIngrese tipo de Pokemon a buscar: ");
 	scanf("%[^\n]s", tipo);
 	getchar();
 
 	//BUSQUEDA DE POKEMON POR TIPO - NO SE COMO BUSCAR MAS DE UNO :( //
-	infoPokemon *P = searchMap(Pokemon_tipo,tipo);
-	if(P){
-		printf("\n%s %d %d\n", P->PokUser->nombre, P->PokUser->PC, P->PokUser->PS);
+	infoPokemon *P = firstMap(Pokemon_tipo);
+	assert(P != NULL);
+	//searchMap(Pokemon_tipo,tipo);
+
+	while(P != NULL){
+
+		//Es !strcmp porque si son iguales entrega cero, y para if es un valor falso, por lo que no entra en la función//
+		if( (strcmp(P->Px->tipo, tipo) ) == 0 ){
+			printf("Hola\n");
+			printf("\n%s %d %d\n", P->PokUser->nombre, P->PokUser->PC, P->PokUser->PS);
+			existeTipoDePokemon = true;
+		}
+		P = nextMap(Pokemon_tipo);
 	}
-	else printf("\nNO EXISTE POKEMON DE TIPO INGRESADO\n");
+
+	if(existeTipoDePokemon == false) printf("\nNO EXISTE REGISTRO DE POKEMON DE TIPO INGRESADO\n");
+
 	return;
 }

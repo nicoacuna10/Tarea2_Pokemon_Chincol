@@ -42,7 +42,7 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon){
 	int i = 0;		
 	printf("TotalPokemon: %d\n", totalPokemon);
 	while(aux != NULL){
-		printf("%s %d %s %s %s %d %s\n\n", aux->Px->nombre, aux->Px->existencia, aux->Px->tipo, aux->Px->evolucionPrevia, aux->Px->evolucionPosterior,
+		printf("Numero: %d) %s %d %s %s %s %d %s\n\n", aux->Px->numeroPokedex, aux->Px->nombre, aux->Px->existencia, aux->Px->tipo, aux->Px->evolucionPrevia, aux->Px->evolucionPosterior,
 		aux->Px->numeroPokedex, aux->Px->region);
 
 		i++;
@@ -51,5 +51,6 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon){
 
 
 	free(aux);
+	printf("Funcion mostrar finalizada con exito\n\n");
 	return;
 }
