@@ -87,11 +87,12 @@ void pokemonAtrapado(Map *MapaPokemon, int *totalPokemon){
 		strcpy(aux->PokUser->nombre, nombre);
 
 		//Testing//
-		printf("%s %d %d \n\n", aux->PokUser->nombre, aux->PokUser->PC, aux->PokUser->PS, aux->PokUser->sexo);
+		printf("%s %d %d %s\n\n", aux->PokUser->nombre, aux->PokUser->PC, aux->PokUser->PS, aux->PokUser->sexo);
 		//No esta imprimiendo sexo//
-	return;
+		return;
 	}
 
+	
 
 	return;
 }

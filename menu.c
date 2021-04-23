@@ -31,11 +31,13 @@ void menu(int *opcion){
 
 		//Se corrobora si entrada no es válida o se ingreso 10//
 		if(entrada[1] != '\0'){
+			
 			if(entrada[1] != '0'){
 			printf("¡Entrada no valida!\n\n");
 			}
-			if(entrada[0] == 1 && entrada[1] == 0) 
+			if( (entrada[0] == '1') && (entrada[1] == '0') ) {
 				esDiez = true;
+			}
 		}	
 
 	}while( ( (  entrada[0] < '0') || ( entrada[0] > '9') )  );
@@ -46,5 +48,6 @@ void menu(int *opcion){
 	else
 		(*opcion) = entrada[0] - 48;
 
+	printf("\n%d\n", *opcion);
 	return;
 }

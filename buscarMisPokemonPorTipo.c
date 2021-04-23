@@ -65,7 +65,7 @@ Pokemon_y_sus_tipos *llenarVector(char *vectorTipos, Pokemon_y_sus_tipos *pokemo
 	return pokemon_en_evaluacion;
 }
 
-void buscarMisPokemonPorTipo(char tipo[20], Map *MapaPokemon){
+void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]){
 	//Declaración de variables//
 	bool existeTipoDePokemon = false;	
 	int tallavector;

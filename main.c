@@ -49,19 +49,19 @@ void menu(int *opcion);
 void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
 void pokemonAtrapado(Map *MapaPokemon, int *totalPokemon);
 //void evolucionarPokemon(int id);
-void buscarMisPokemonPorTipo(char tipo[20], Map *MapaPokemon);
-//void buscarMisPokemonPorNombre(char* nombre);
-//void buscarPorNombreEnPokedex(char* nombre);
+void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]);
+void buscarMisPokemonPorNombre(Map *MapaPokemon, char nombre[50]);
+void buscarPorNombreEnPokedex(Map *MapaPokemon, char nombre[50]);
 void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
 //void mostrarPokemonPorMayorPC();
 //void liberarPokemon(int id);
-//void mostrarPokemonPorRegion(char* region);
+void mostrarPokemonPorRegion(Map *MapaPokemon, char region[20]);
 
 int main(void){
 	int opcionElegida, totalPokemon = 0;
 	char nombre_archivo[100];
 	Map *MapaPokemon, *Pokemon_tipo;
-	char tipo[20];
+	char tipo[20], region[20], nombre[50];
 
 	do{
 		menu(&opcionElegida);
@@ -89,14 +89,15 @@ int main(void){
 				i++;
 			}
 			//*/
-			buscarMisPokemonPorTipo(tipo, MapaPokemon);
+			buscarMisPokemonPorTipo(MapaPokemon, tipo);
 		}
-		//if(opcionElegida == 5) buscarMisPokemonPorNombre();
-		//if(opcionElegida == 6) buscarPorNombreEnPokedex();
+		if(opcionElegida == 5) buscarMisPokemonPorNombre(MapaPokemon, nombre);
+		if(opcionElegida == 6) buscarPorNombreEnPokedex(MapaPokemon, nombre);
 		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(MapaPokemon, totalPokemon);
 		//if(opcionElegida == 8) mostrarPokemonPorMayorPc();
 		//if(opcionElegida == 9) liberarPokemon();
-		//if(opcionElegida == 10) mostrarPokemonPorRegion();
+		if(opcionElegida == 10) mostrarPokemonPorRegion(MapaPokemon, region);
+		printf("\nopcion %d\n", opcionElegida);
 	}while(menu != 0);
 
 

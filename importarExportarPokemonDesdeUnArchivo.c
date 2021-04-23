@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "Map.h"
 
 typedef struct{
@@ -299,8 +300,22 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 			}
 
 		}
+		//VERIFICAR EXISTENCIA PREVIA
+		bool PokemonRepetido = false;
+		if(MapaPokemon != NULL){
+			infoPokemon *aux = (infoPokemon*) firstMap(MapaPokemon);
+			while(aux != NULL){
+				if( strcmp(aux->Px->nombre, P->Px->nombre) == 0 && strcmp(aux->Px->numeroPokedex, P->Px->numeroPokedex) == 0){
+					aux->Px->existencia++;
+					PokemonRepetido = true;
+				}
+				aux = (infoPokemon*) nextMap(MapaPokemon);
+			}
+		}
 		//INSERTAR EN MAPA //
-		insertMap(MapaPokemon, &P->PokUser->id, P);
+		if(PokemonRepetido == false){
+			insertMap(MapaPokemon, &P->PokUser->id, P);
+		}
 
 		*totalPokemon = *totalPokemon + 1;
 	}
@@ -309,4 +324,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	printf("\nImportacion realizada con exito\n\n");
 	printf("TOTAL POKEMON: %d\n", *totalPokemon);
 	return MapaPokemon;
+
+	/* HAY QUE EL TEMA DE LOS POKEMONES REPETIDOS DE LA POKEDEX
+	Y EL ULTIMO POKEMON NO COPIA BIEN EL ULTIMO CARACTER DE LA REGION*/
 }
