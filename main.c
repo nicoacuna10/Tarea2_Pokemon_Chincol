@@ -47,7 +47,7 @@ int lower_than_string(void * key1, void * key2) {
 void menu(int *opcion);
 
 void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
-//*void pokemonAtrapado(char* nombre, char** tipos, int PC, int PS, char* sexo, char* evolucionPrevia, char* evolucionPosterior, int numeroPokedex, char* region);
+void pokemonAtrapado(Map *MapaPokemon, int *totalPokemon);
 //void evolucionarPokemon(int id);
 void buscarMisPokemonPorTipo(char tipo[20], Map *MapaPokemon);
 //void buscarMisPokemonPorNombre(char* nombre);
@@ -67,7 +67,7 @@ int main(void){
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
 		if(opcionElegida == 1) MapaPokemon = importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon);
-		//if(opcionElegida == 2) pokemonAtrapado();
+		if(opcionElegida == 2) pokemonAtrapado(MapaPokemon, &totalPokemon);
 		//if(opcionElegida == 3) evolucionarPokemon();
 		if(opcionElegida == 4){
 			/*//CREAR MAPA //
@@ -102,6 +102,6 @@ int main(void){
 
 
 
-
+	printf("\n¡Adios!\n");
 	return 0;
 }
