@@ -308,15 +308,23 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 				if( strcmp(aux->Px->nombre, P->Px->nombre) == 0 && strcmp(aux->Px->numeroPokedex, P->Px->numeroPokedex) == 0){
 					aux->Px->existencia++;
 					PokemonRepetido = true;
+                                        break;
 				}
 				aux = (infoPokemon*) nextMap(MapaPokemon);
 			}
 		}
-		//INSERTAR EN MAPA //
-		if(PokemonRepetido == false){
-			insertMap(MapaPokemon, &P->PokUser->id, P);
+		//CASO REPETIDO //
+		if(PokemonRepetido == true){
+			P->Px->nombre = NULL;
+                        P->Px->existencia = NULL;
+                        P->Px->tipo = NULL;
+                        P->Px->evolucionPrevia = NULL;
+                        P->Px->evolucionPosterior = NULL;
+                        P->Px->region = NULL;
 		}
 
+                //INSERTAR EN MAPA //
+                insertMap(MapaPokemon, &P->PokUser->id, P);
 		*totalPokemon = *totalPokemon + 1;
 	}
 	//CERRAR ARCHIVO IMPORTADO//
