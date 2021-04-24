@@ -320,6 +320,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
                         P->Px->tipo = NULL;
                         P->Px->evolucionPrevia = NULL;
                         P->Px->evolucionPosterior = NULL;
+                        P->Px->numeroPokedex = NULL;
                         P->Px->region = NULL;
 		}
 
