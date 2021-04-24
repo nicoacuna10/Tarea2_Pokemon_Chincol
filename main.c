@@ -46,19 +46,19 @@ int lower_than_string(void * key1, void * key2) {
 
 void menu(int *opcion);
 
-void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon);
+void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon, int *totalPokemonPokedex);
 void pokemonAtrapado(Map *MapaPokemon, int *totalPokemon);
 //void evolucionarPokemon(int id);
 void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]);
 void buscarMisPokemonPorNombre(Map *MapaPokemon, char nombre[50]);
 void buscarPorNombreEnPokedex(Map *MapaPokemon, char nombre[50]);
-void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
+void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemonPokedex);
 void mostrarPokemonPorMayorPC(Map *MapaPokemon);
 void liberarPokemon(Map * MapaPokemon);
 void mostrarPokemonPorRegion(Map *MapaPokemon, char region[20]);
 
 int main(void){
-	int opcionElegida, totalPokemon = 0;
+	int opcionElegida, totalPokemon = 0, totalPokemonPokedex = 0;
 	char nombre_archivo[100];
 	Map *MapaPokemon, *Pokemon_tipo;
 	char tipo[20], region[20], nombre[50];
@@ -66,7 +66,7 @@ int main(void){
 	do{
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
-		if(opcionElegida == 1) MapaPokemon = importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon);
+		if(opcionElegida == 1) MapaPokemon = importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon, &totalPokemonPokedex);
 		if(opcionElegida == 2) pokemonAtrapado(MapaPokemon, &totalPokemon);
 		//if(opcionElegida == 3) evolucionarPokemon();
 		if(opcionElegida == 4){
@@ -93,7 +93,7 @@ int main(void){
 		}
 		if(opcionElegida == 5) buscarMisPokemonPorNombre(MapaPokemon, nombre);
 		if(opcionElegida == 6) buscarPorNombreEnPokedex(MapaPokemon, nombre);
-		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(MapaPokemon, totalPokemon);
+		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(MapaPokemon, totalPokemonPokedex);
 		if(opcionElegida == 8) mostrarPokemonPorMayorPC(MapaPokemon);
 		if(opcionElegida == 9) liberarPokemon(MapaPokemon);
 		if(opcionElegida == 10) mostrarPokemonPorRegion(MapaPokemon, region);

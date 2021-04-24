@@ -34,7 +34,7 @@ void mostrarPokemonPorRegion(Map *MapaPokemon, char region[20]){
 	}
 
 	bool hayPokemonesDeLaRegion = false;
-	int contPokemonR = 0;
+	//int contPokemonR = 0;
 	printf("Ingrese region: ");
 	scanf("%[^\n]s", region);
 	getchar();
@@ -47,7 +47,7 @@ void mostrarPokemonPorRegion(Map *MapaPokemon, char region[20]){
 		if( strcmp(aux->Px->region, region) == 0){
 			printf("%s - %s - %s - %s - %d - %s\n\n", aux->Px->nombre, aux->Px->tipo, aux->Px->evolucionPrevia, aux->Px->evolucionPosterior,
 		aux->Px->numeroPokedex, aux->Px->region);
-			contPokemonR += aux->Px->existencia;
+			//contPokemonR += aux->Px->existencia;
 			hayPokemonesDeLaRegion = true;
 		}
 		aux = (infoPokemon*) nextMap(MapaPokemon);
