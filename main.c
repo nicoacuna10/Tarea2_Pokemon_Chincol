@@ -53,8 +53,8 @@ void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]);
 void buscarMisPokemonPorNombre(Map *MapaPokemon, char nombre[50]);
 void buscarPorNombreEnPokedex(Map *MapaPokemon, char nombre[50]);
 void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon);
-//void mostrarPokemonPorMayorPC();
-//void liberarPokemon(int id);
+void mostrarPokemonPorMayorPC(Map *MapaPokemon);
+void liberarPokemon(Map * MapaPokemon);
 void mostrarPokemonPorRegion(Map *MapaPokemon, char region[20]);
 
 int main(void){
@@ -94,10 +94,9 @@ int main(void){
 		if(opcionElegida == 5) buscarMisPokemonPorNombre(MapaPokemon, nombre);
 		if(opcionElegida == 6) buscarPorNombreEnPokedex(MapaPokemon, nombre);
 		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(MapaPokemon, totalPokemon);
-		//if(opcionElegida == 8) mostrarPokemonPorMayorPc();
-		//if(opcionElegida == 9) liberarPokemon();
+		if(opcionElegida == 8) mostrarPokemonPorMayorPC(MapaPokemon);
+		if(opcionElegida == 9) liberarPokemon(MapaPokemon);
 		if(opcionElegida == 10) mostrarPokemonPorRegion(MapaPokemon, region);
-		printf("\nopcion %d\n", opcionElegida);
 	}while(menu != 0);
 
 

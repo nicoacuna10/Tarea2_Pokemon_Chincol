@@ -42,9 +42,9 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *MapaPokemon, int totalPokemon){
 	int i = 0;		
 	printf("TotalPokemon: %d\n", totalPokemon);
 	while(aux != NULL){
-		printf("Numero: %d) - %s - %s - %s - %s - %d - %s\n\n", aux->PokUser->id, aux->Px->nombre, aux->Px->tipo, aux->Px->evolucionPrevia, aux->Px->evolucionPosterior,
-		aux->Px->numeroPokedex, aux->Px->region);
-
+		printf("Numero: %d) - %s - %s - %s - %s - %d - %s %d\n\n", aux->PokUser->id, aux->Px->nombre, aux->Px->tipo, aux->Px->evolucionPrevia, aux->Px->evolucionPosterior,
+		aux->Px->numeroPokedex, aux->Px->region, aux->Px->existencia);
+		//Existencia no aparecer por pantalla porque se pierde preliminarmente no se inicializa en cero//
 		i++;
 		aux = (infoPokemon *) nextMap(MapaPokemon);
 	}

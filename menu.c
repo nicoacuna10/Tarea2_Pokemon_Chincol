@@ -48,6 +48,5 @@ void menu(int *opcion){
 	else
 		(*opcion) = entrada[0] - 48;
 
-	printf("\n%d\n", *opcion);
 	return;
 }
