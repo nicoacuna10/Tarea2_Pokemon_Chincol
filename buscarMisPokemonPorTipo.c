@@ -66,6 +66,12 @@ Pokemon_y_sus_tipos *llenarVector(char *vectorTipos, Pokemon_y_sus_tipos *pokemo
 }
 
 void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]){
+	if(MapaPokemon == NULL){
+		printf("No se tiene registro de pokemones. Por favor importe desde un archivo\n\n");
+		return;
+	}
+
+
 	//Declaración de variables//
 	bool existeTipoDePokemon = false;	
 	int tallavector;
