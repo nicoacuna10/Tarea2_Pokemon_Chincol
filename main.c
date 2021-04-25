@@ -6,8 +6,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	int PC;
-	int PS;
+	float PC;
+	float PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -48,7 +48,7 @@ void menu(int *opcion);
 
 void *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon, int *totalPokemonPokedex);
 void pokemonAtrapado(Map *MapaPokemon, int *totalPokemon);
-//void evolucionarPokemon(int id);
+void evolucionarPokemon(Map *MapaPokemon);
 void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]);
 void buscarMisPokemonPorNombre(Map *MapaPokemon, char nombre[50]);
 void buscarPorNombreEnPokedex(Map *MapaPokemon, char nombre[50]);
@@ -68,7 +68,7 @@ int main(void){
 		if(opcionElegida == 0) break;
 		if(opcionElegida == 1) MapaPokemon = importarExportarPokemonDesdeUnArchivo(nombre_archivo, MapaPokemon, &totalPokemon, &totalPokemonPokedex);
 		if(opcionElegida == 2) pokemonAtrapado(MapaPokemon, &totalPokemon);
-		//if(opcionElegida == 3) evolucionarPokemon();
+		if(opcionElegida == 3) evolucionarPokemon(MapaPokemon);
 		if(opcionElegida == 4){
 			/*//CREAR MAPA //
 			Pokemon_tipo = createMap(is_equal_string);

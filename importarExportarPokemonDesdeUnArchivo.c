@@ -7,8 +7,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	int PC;
-	int PS;
+	float PC;
+	float PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -222,6 +222,7 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 		//EXISTENCIA
 		P->Px->existencia = 1;
 
+		// 10 elementos que se leen del archivo .csv
 		for(i = 0; i <10; i++){
 			
 			//ID
@@ -300,16 +301,17 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 			}
 
 		}
-		//VERIFICAR EXISTENCIA PREVIA
+
+		//VERIFICAR EXISTENCIA PREVIA EN LA POKEDEX
 		bool PokemonRepetido = false;
 		if(MapaPokemon != NULL){
 			// Se recorre el arreglo y se busca si existe registro previo
 			infoPokemon *registro = (infoPokemon*) firstMap(MapaPokemon);
 			while(registro != NULL){
-				/* Si los numeros de la pokedex y el id del pokemon que se ingresa por lectura y el del registro coincide se suma 1
+				/* Si los numeros de la pokedex del pokemon que se ingresa por lectura y el del registro coincide se suma 1
 				   a la existencia de la pokedex del registro, y los valores de la pokedex del pokemon de lectura se
 				   inicializan en NULL (string) o -1 (entero) porque existe registro previo*/
-				if( ( registro->Px->numeroPokedex == P->Px->numeroPokedex ) && ( registro->PokUser->id != P->PokUser->id ) && registro->Px->numeroPokedex > -1){
+				if( ( registro->Px->numeroPokedex == P->Px->numeroPokedex ) && /*( registro->PokUser->id != P->PokUser->id ) &&*/ registro->Px->numeroPokedex > 0){
 					printf("(%d) %d = (%d) %d\n", registro->PokUser->id, registro->Px->numeroPokedex, P->PokUser->id, P->Px->numeroPokedex);
 					registro->Px->existencia++;
 					memset(P->Px->nombre, '\0', 50);
@@ -342,12 +344,12 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	printf("TOTAL POKEMON POKEDEX: %d\n", *totalPokemonPokedex);
 
 	//TESTING //
-	/*infoPokemon *test = (infoPokemon*) firstMap(MapaPokemon);
+	infoPokemon *test = (infoPokemon*) firstMap(MapaPokemon);
 	while(test != NULL){
 		printf("\n%d | %s | %d | %d | %s | %s | %d | %s | %s | %s | %d | %s\n", test->PokUser->id, test->PokUser->nombre, test->PokUser->PC, test->PokUser->PS, test->PokUser->sexo, test->Px->nombre, test->Px->existencia, test->Px->tipo, test->Px->evolucionPrevia, test->Px->evolucionPosterior, test->Px->numeroPokedex, test->Px->region);
 		test = (infoPokemon*) nextMap(MapaPokemon);
 	}
-	free(test);*/
+	free(test);
 	//FIN TESTING //
 	return MapaPokemon;
 

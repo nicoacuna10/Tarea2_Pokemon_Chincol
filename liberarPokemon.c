@@ -8,8 +8,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	int PC;
-	int PS;
+	float PC;
+	float PS;
 	char* sexo;
 }Pokemon_usuario;
 
