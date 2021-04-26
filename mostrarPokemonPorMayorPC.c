@@ -7,8 +7,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -22,11 +22,6 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-typedef struct{
-	Pokemon_usuario* PokUser; 
-	Pokedex* Px;
-}infoPokemon;
-
 int comparar(const void *a, const void *b){
 	int *ptrA = (int *)a;
 	int *ptrB = (int *)b;
@@ -34,8 +29,8 @@ int comparar(const void *a, const void *b){
 	return ( *ptrB - *ptrA);
 }
 
-void mostrarPokemonPorMayorPC(Map *MapaPokemon){
-	if(MapaPokemon == NULL){
+void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id){
+	if(PokemonUsuario_id == NULL){
 		printf("Por favor importe datos antes de entrar a esta funcion\n\n");
 		return;
 	}
@@ -43,13 +38,13 @@ void mostrarPokemonPorMayorPC(Map *MapaPokemon){
 	int totalPokemon = 0;
 	int contador = 0;
 	int i = 0;
-	infoPokemon *aux = (infoPokemon *) firstMap(MapaPokemon);
+	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
 	assert(aux != NULL);
 
 	//Primero se busca la cantidad de pokemones//
 	while(aux != NULL){
 		totalPokemon++;
-		aux = (infoPokemon *) nextMap(MapaPokemon);
+		aux = (Pokemon_usuario *) nextMap(PokemonUsuario_id);
 	}
 
 	//Luego se crea vector int con números desordenados//
@@ -57,12 +52,12 @@ void mostrarPokemonPorMayorPC(Map *MapaPokemon){
 	assert(numerosPC != NULL);
 	
 	//Se guardan numeros en el vector//
-	aux = (infoPokemon *) firstMap(MapaPokemon);
+	aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
 	assert(aux != NULL);
 
 	for(i = 0; i < totalPokemon; i++){
-		numerosPC[i] = aux->PokUser->PC;
-		aux = (infoPokemon *) nextMap(MapaPokemon);
+		numerosPC[i] = aux->PC;
+		aux = (Pokemon_usuario*) nextMap(PokemonUsuario_id);
 	}
 
 	//Se hace quicksort a numerosPc//
@@ -70,17 +65,16 @@ void mostrarPokemonPorMayorPC(Map *MapaPokemon){
 	i = 0;
 
 	// Se busca por metodo de fuerza bruta los pokemones que posean el PC segun el vector 'numerosPC'//
-	aux = (infoPokemon *) firstMap(MapaPokemon);
+	aux = (Pokemon_usuario *) firstMap(PokemonUsuario_id);
 	while(contador < totalPokemon){
-		if(aux->PokUser->PC == numerosPC[i]){
-			printf("%d - %s - %d - %d - %s\n", aux->PokUser->id, aux->PokUser->nombre, aux->PokUser->PC, aux->PokUser->PS,
-			aux->PokUser->sexo);
+		if(aux->PC == numerosPC[i]){
+			printf("%d - %s - %d - %d - %s\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
 			i++;
 			contador++;
 		}
 		
-		aux = (infoPokemon *) nextMap(MapaPokemon);
-		if(aux == NULL) aux =(infoPokemon *) firstMap(MapaPokemon);
+		aux = (Pokemon_usuario *) nextMap(PokemonUsuario_id);
+		if(aux == NULL) aux =(Pokemon_usuario*) firstMap(PokemonUsuario_id);
 		//if(i >= totalPokemon) i = 0;
 	}
 

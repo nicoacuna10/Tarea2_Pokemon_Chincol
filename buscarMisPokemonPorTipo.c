@@ -12,8 +12,8 @@ typedef struct{
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -26,11 +26,6 @@ typedef struct{
 	int numeroPokedex;
 	char* region;
 }Pokedex;
-
-typedef struct{
-	Pokemon_usuario* PokUser; 
-	Pokedex* Px;
-}infoPokemon;
 
 int totalTipos(char* vector){
 	/* totalcomas + 1 es igual a la cantidad de tipo que posee el pokemon evaluado.
@@ -65,15 +60,16 @@ Pokemon_y_sus_tipos *llenarVector(char *vectorTipos, Pokemon_y_sus_tipos *pokemo
 	return pokemon_en_evaluacion;
 }
 
-void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]){
-	if(MapaPokemon == NULL){
+void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
+	if(PokemonUsuario_id == NULL || Pokedex_num == NULL){
 		printf("No se tiene registro de pokemones. Por favor importe desde un archivo\n\n");
 		return;
 	}
 
 
 	//Declaración de variables//
-	bool existeTipoDePokemon = false;	
+	bool existeTipoDePokemon = false;
+	char tipo[20];	
 	int tallavector;
 	Pokemon_y_sus_tipos* pokemon_en_evaluacion = NULL;
 
@@ -82,44 +78,50 @@ void buscarMisPokemonPorTipo(Map *MapaPokemon, char tipo[20]){
 	scanf("%[^\n]s", tipo);
 	getchar();
 
-	infoPokemon *P = (infoPokemon*) firstMap(MapaPokemon);
-	assert(P != NULL);
+	Pokedex *aux = (Pokedex*) firstMap(Pokedex_num);
+	assert(aux != NULL);
 
-	//Se recorre el mapa entero con 'P' y se va evaluando si el pokemon posee el tipo que se busca//
-	while(P != NULL){
+	//Se recorre la pokedex con 'aux' y se va evaluando si el pokemon posee el tipo que se busca//
+	while(aux != NULL){
 		//Se busca primero la cantidad de tipos que posee el pokemon para inicializar vector//
-		tallavector = totalTipos(P->Px->tipo);
+		tallavector = totalTipos(aux->tipo);
 		//Se inicializa vector tipo struct//
 		pokemon_en_evaluacion = (Pokemon_y_sus_tipos*) malloc(tallavector*sizeof(Pokemon_y_sus_tipos));
 		assert(pokemon_en_evaluacion != NULL);
 		//Se llena vector con cada casilla con una especie de tipo//
-		pokemon_en_evaluacion = llenarVector(P->Px->tipo, pokemon_en_evaluacion, tallavector);
+		pokemon_en_evaluacion = llenarVector(aux->tipo, pokemon_en_evaluacion, tallavector);
 
-		//Se evalua pokemon si posee tipo buscado//
-		for(int i = 0; i < tallavector; i++){
-			//Si se encuentra tipo se imprime por pantalla//
-			if( strcmp(pokemon_en_evaluacion[i].tipo, tipo) == 0){
-				printf("\n%d - %s - %d - %d - %s\n", P->PokUser->id, P->PokUser->nombre, P->PokUser->PC, P->PokUser->PS, pokemon_en_evaluacion[i].tipo);
-				existeTipoDePokemon = true;
-				break;// Agregue esta  linea porque tiene sentido :) //
+		// Se recorre el almacenamiento del usuario para imprimir los pokemones del tipo correspondiente
+		Pokemon_usuario *aux2 = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
+
+		while(aux2 != NULL){
+			if( strcmp(aux2->nombre, aux->nombre) == 0){
+				//Se evalua pokemon si posee tipo buscado//
+				for(int i = 0; i < tallavector; i++){
+					//Si se encuentra tipo se imprime por pantalla//
+					if( strcmp(pokemon_en_evaluacion[i].tipo, tipo) == 0){
+						printf("\n%d - %s - %d - %d - %s\n", aux2->id, aux2->nombre, aux2->PC, aux2->PS, pokemon_en_evaluacion[i].tipo);
+						existeTipoDePokemon = true;
+						break;// Agregue esta  linea porque tiene sentido :) //
+					}
+				}
 			}
+
+			//Testing
+			/*for(int i = 0; i < tallavector; i++){
+				printf("%s ", pokemon_en_evaluacion[i].tipo);
+			}
+			printf("\nTotal tipos: %d\n", tallavector);
+			*/
+			//Fin Testing//
 		}
-
-		//Testing
-		/*for(int i = 0; i < tallavector; i++){
-			printf("%s ", pokemon_en_evaluacion[i].tipo);
-		}
-		printf("\nTotal tipos: %d\n", tallavector);
-		*/
-		//Fin Testing//
-
-
+		free(aux2);
 		//Se libera memoria del vector dinámico que guarda cada uno de los tipos que posee el pokemon//
 		free(pokemon_en_evaluacion);
 		//Se continua con el siguiente pokemon del mapa//
-		P = (infoPokemon*) nextMap(MapaPokemon);
+		aux = (Pokedex*) nextMap(Pokedex_num);
 	}
-
+	free(aux);
 	//En caso de nunca haberse cambiado esta variable a true, signfica que no hay pokemon registrado con tipo ingresado//
 	if(existeTipoDePokemon == false) printf("\nNO EXISTE REGISTRO DE POKEMON DE TIPO INGRESADO\n");
 	return;

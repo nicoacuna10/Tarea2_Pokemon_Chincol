@@ -8,8 +8,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -23,63 +23,37 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-typedef struct{
-	Pokemon_usuario* PokUser; 
-	Pokedex* Px;
-}infoPokemon;
-
-void liberarPokemon(Map *MapaPokemon){
-	if(MapaPokemon == NULL){
+void liberarPokemon(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nombre){
+	if(PokemonUsuario_id == NULL || Pokedex_num == NULL || Pokedex_nombre == NULL){
 		printf("Por favor importe datos antes de ingresar a esta funcion.\n\n");
 		return;
 	}
 
-	bool existePokemon = false;
-	char nombre[50];
-	memset(nombre,'\0', 50);
-	infoPokemon *aux = (infoPokemon *) firstMap(MapaPokemon);
-	assert(aux != NULL);
+	int id;
 
 
-	printf("Por favor ingrese nombre de pokemon a liberar: ");
-	scanf("%[^\n]s", nombre);
+	printf("Por favor ingrese id de pokemon a liberar: ");
+	scanf("%d", &id);
 	getchar();
 
+	// ELIMINAR POKEMON DEL ALMACENAMIENTO CON LLAVE ID
+	Pokemon_usuario *aux = (Pokemon_usuario*) eraseMap(PokemonUsuario_id, &id);
+	assert(aux != NULL);
 
-
-	//EL CODIGO DEBERIA SER ASI O SIMILAR, Y CON LA CLAVE HASH INGRESAR Y ELIMINAR//
-	/*
-	aux = eraseMap(MapaPokemon, nombre);
-	//Si es NULL significa que no existe en el almacenamiento//
-	if(aux == NULL){
-		printf("No existe pokemon en tu almacenamiento personal!\n\n");
-		return;
+	// Si se elimino el pokemon del almacenamiento, se descuenta 1 la existencia de la Pokedex
+	if(aux){
+		Pokedex *registro = (Pokedex*) searchMap(Pokedex_nombre, aux->nombre);
+		registro->existencia--;
+		Pokedex *registro2 = (Pokedex*) searchMap(Pokedex_num, &registro->numeroPokedex);
+		registro2->existencia--;
+		printf("Pokemon eliminado\n\n");
+		free(registro);
+		free(registro2);
 	}
-	*/	
-	//ESTA ES LA PARTE PARCHE DE LO ANTERIOR//
-	while(aux != NULL){
-		if( strcmp(aux->PokUser->nombre, nombre) == 0){
-			//HAY QUE CORROBORAR BIEN QUE ESTO FUNCIONA BIEEEEEEEEEEEENNNNNN :D //
-			aux = (infoPokemon *) eraseMap(MapaPokemon, nombre);
-			if(aux != NULL)break;
-		}
+	
 
-		aux = (infoPokemon *) nextMap(MapaPokemon);
-	}
-
-	//Si se sigue acontinuación en el programa es porque se borro pokemon del almacenamiento personal//
-
-	//Se busca nombre en la pokedex y se saca descuenta uno en caso de no ser cero//
-	aux = (infoPokemon *) firstMap(MapaPokemon);
-	while(aux != NULL){
-		if( strcmp(aux->Px->nombre, nombre) == 0 ){
-			if(aux->Px->nombre > 0) aux->Px->existencia--;
-			break;
-		}
-		aux = (infoPokemon *) nextMap(MapaPokemon);
-	}
-
-
+	if(!aux) printf("No existe registro de pokemon con id ingresado\n\n");
 	free(aux);
+	
 	return;
 }

@@ -7,8 +7,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -21,29 +21,6 @@ typedef struct{
 	int numeroPokedex;
 	char* region;
 }Pokedex;
-
-typedef struct{
-	Pokemon_usuario* PokUser; 
-	Pokedex* Px;
-}infoPokemon;
-
-/*
-  función para comparar claves de tipo int
-  retorna 1 si son iguales
-*/
-int is_equal_int(void * key1, void * key2) {
-    if(*(int*)key1 == *(int*)key2) return 1;
-    return 0;
-}
-
-/*
-  función para comparar claves de tipo int
-  retorna 1 si son key1<key2
-*/
-int lower_than_int(void * key1, void * key2) {
-    if(*(int*)key1 < *(int*)key2) return 1;
-    return 0;
-}
 
 char *get_csv_field (char * tmp, int k){
     int open_mark = 0;
@@ -85,9 +62,7 @@ char *get_csv_field (char * tmp, int k){
     return NULL;
 }
 
-Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemon, int *totalPokemon, int *totalPokemonPokedex){
-	//CREAR MAPA //
-	MapaPokemon = createMap(is_equal_int);
+void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUsuario_id, Map **Pokedex_num, Map **Pokedex_nombre,int *totalPokemon, int *totalPokemonPokedex){
 
 	char opcionIoE[100];
 	do{
@@ -107,9 +82,9 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 
 	//EXPORTAR ARCHIVO .CSV//
 	if(opcionIoE[0] == '2'){
-		if(MapaPokemon == NULL){
+		if(PokemonUsuario_id == NULL || Pokedex_num == NULL){
 			printf("\nImportar!\n");
-			return MapaPokemon;
+			return;
 		}
 		printf("\nIngrese nombre del archivo .csv: ");
 		scanf("%[^\n]s", nombre_archivo);
@@ -120,12 +95,13 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 		
 		char linea[1000];
 		int i;
-		infoPokemon *P;
+		Pokemon_usuario *PokUser;
+		Pokedex *PX;
 
 		//ESCRIBIR INFO EN ARCHIVO A EXPORTAR //
 		fprintf( fp, "id,nombre,tipos,pc,ps,sexo,evolucion previa,evolucion posterior,numero pokedex,region\n");
 
-		P = (infoPokemon*) firstMap(MapaPokemon);
+		/*P = (infoPokemon*) firstMap(MapaPokemon);
 		while(P != NULL){
 			fprintf(fp, "%d,%s,", P->PokUser->id, P->PokUser->nombre);
 			fprintf(fp, "%s,%d,", P->Px->tipo, P->PokUser->PC);
@@ -134,12 +110,12 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 			fprintf(fp, "%d,%s\n", P->Px->numeroPokedex, P->Px->region);
 			i++;
 			P = (infoPokemon*) nextMap(MapaPokemon);
-		}
+		}*/
 
 		//CERRRAR ARCHIVO EXPORTADO //
 		fclose(fp);
 		printf("\nArchivo .csv exportado con exito!\n");
-		return MapaPokemon;
+		return;
 	}
 	
 	//IMPORTAR ARCHIVO .CSV //
@@ -151,12 +127,12 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	FILE *fp = fopen(nombre_archivo, "r");
 	if(fp == NULL){
 		printf("\nARCHIVO NO ENCONTRADO\n");
-		return MapaPokemon;
+		return;
 	}
 
 	char linea[2000];
-	char * aux;
-	infoPokemon *P;
+	Pokemon_usuario *PokUser;
+	Pokedex *Px;
 	int i;
 
 	//SALTAR LECTURA DE LA PRIMERA LINEA //
@@ -166,174 +142,161 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	while( fgets(linea, 2000, fp) != NULL){
 
 		//DIMENSIONAR VARIABLES //
-		P = (infoPokemon*) malloc(sizeof(infoPokemon));
-		if(P == NULL){
-			printf("Error en inicializar memoria en variable P\n\n");
-			exit(1);
-		}
 
-		P->PokUser = (Pokemon_usuario*)malloc(sizeof(Pokemon_usuario));
-		if(P->PokUser == NULL){
+		PokUser = (Pokemon_usuario*)malloc(sizeof(Pokemon_usuario));
+		if(PokUser == NULL){
 			printf("Error en inicializar memoria en variable P->PokUser\n\n");
 			exit(1);
 		}
-		P->PokUser->nombre = malloc(50*sizeof(char));
-		if(P->PokUser->nombre == NULL){
+		PokUser->nombre = malloc(50*sizeof(char));
+		if(PokUser->nombre == NULL){
 			printf("Error en inicializar memoria en variable P->PokUser->nombre\n\n");
 			exit(1);
 		}
-		P->PokUser->sexo = malloc(7*sizeof(char));
-		if(P->PokUser->sexo == NULL){
+		PokUser->sexo = malloc(9*sizeof(char));
+		if(PokUser->sexo == NULL){
 			printf("Error en inicializar memoria en variable P->PokUser->sexo\n\n");
 			exit(1);
 		}
 
-		P->Px = malloc(sizeof(Pokedex));
-		if(P->Px == NULL){
+		Px = (Pokedex*) malloc(sizeof(Pokedex));
+		if(Px == NULL){
 			printf("Error en inicializar memoria en variable P->Px\n\n");
 			exit(1);
 		}
-		P->Px->evolucionPosterior = malloc(20*sizeof(char));
-		if(P->Px->evolucionPosterior == NULL){
+		Px->evolucionPosterior = malloc(20*sizeof(char));
+		if(Px->evolucionPosterior == NULL){
 			printf("Error en inicializar memoria en variable P->Px->evolucionPosterior\n\n");
 			exit(1);
 		}
-		P->Px->evolucionPrevia = malloc(20*sizeof(char));
-		if(P->Px->evolucionPrevia == NULL){
+		Px->evolucionPrevia = malloc(20*sizeof(char));
+		if(Px->evolucionPrevia == NULL){
 			printf("Error en inicializar memoria en variable P->Px->evolucionPrevia\n\n");
 			exit(1);
 		}
-		P->Px->nombre = malloc(50*sizeof(char));
-		if(P->Px->nombre == NULL){
+		Px->nombre = malloc(50*sizeof(char));
+		if(Px->nombre == NULL){
 			printf("Error en inicializar memoria en variable P->Px->nombre\n\n");
 			exit(1);
 		}
-		P->Px->region = malloc(20*sizeof(char));
-		if(P->Px->region == NULL){
+		Px->region = malloc(20*sizeof(char));
+		if(Px->region == NULL){
 			printf("Error en inicializar memoria en variable P->Px->region\n\n");
 			exit(1);
 		}
-		P->Px->tipo = malloc(30*sizeof(char));
-		if(P->Px->tipo == NULL){
+		Px->tipo = malloc(30*sizeof(char));
+		if(Px->tipo == NULL){
 			printf("Error en inicializar memoria en variable P->Px->tipo\n\n");
 			exit(1);
 		}
 
 		//EXISTENCIA
-		P->Px->existencia = 1;
+		Px->existencia = 1;
 
 		// 10 elementos que se leen del archivo .csv
 		for(i = 0; i <10; i++){
+			char * aux;
 			
 			//ID
 			if(i == 0){
 				aux = get_csv_field(linea,i);
-				P->PokUser->id = atoi(aux);
+				PokUser->id = atoi(aux);
 
-				printf("\n%d - ", P->PokUser->id);
+				printf("\n%d - ", PokUser->id);
 			}
 
 			//NOMBRE
 			if(i == 1){
-				P->PokUser->nombre = get_csv_field(linea,i);
-				strcpy(P->Px->nombre, P->PokUser->nombre);
+				PokUser->nombre = get_csv_field(linea,i);
+				strcpy(Px->nombre, PokUser->nombre);
 
-				printf("%s - %s - ", P->PokUser->nombre, P->Px->nombre);
+				printf("%s - %s - ", PokUser->nombre, Px->nombre);
 			}
 
 			//TIPO
 			if(i == 2){
-				P->Px->tipo = get_csv_field(linea,i);
+				Px->tipo = get_csv_field(linea,i);
 
-				printf("%s - ", P->Px->tipo);
+				printf("%s - ", Px->tipo);
 			}
 
 			//PC
 			if(i == 3){
 				aux = get_csv_field(linea,i);
-				P->PokUser->PC = atoi(aux);
+				PokUser->PC = atoi(aux);
 
-				printf("%d - ", P->PokUser->PC);
+				printf("%d - ", PokUser->PC);
 			}
 
 			//PS
 			if(i == 4){
 				aux = get_csv_field(linea,i);
-				P->PokUser->PS = atoi(aux);
+				PokUser->PS = atoi(aux);
 
-				printf("%d - ", P->PokUser->PS);
+				printf("%d - ", PokUser->PS);
 			}
 
 			//SEXO
 			if(i == 5){
-				P->PokUser->sexo = get_csv_field(linea,i);
+				PokUser->sexo = get_csv_field(linea,i);
 
-				printf("%s - ", P->PokUser->sexo);
+				printf("%s - ", PokUser->sexo);
 			}
 
 			//EVOLUCION PREVIA
 			if(i == 6){
-				P->Px->evolucionPrevia = get_csv_field(linea,i);
+				Px->evolucionPrevia = get_csv_field(linea,i);
 
-				printf("%s - ", P->Px->evolucionPrevia);
+				printf("%s - ", Px->evolucionPrevia);
 			}
 
 			//EVOLUCION POSTERIOR
 			if(i == 7){
-				P->Px->evolucionPosterior = get_csv_field(linea,i);
+				Px->evolucionPosterior = get_csv_field(linea,i);
 
-				printf("%s - ", P->Px->evolucionPosterior);
+				printf("%s - ", Px->evolucionPosterior);
 			}
 
 			//NUMERO POKEDEX
 			if(i == 8){
 				aux = get_csv_field(linea,i);
-				P->Px->numeroPokedex = atoi(aux);
+				Px->numeroPokedex = atoi(aux);
 
-				printf("%d - ", P->Px->numeroPokedex);
+				printf("%d - ", Px->numeroPokedex);
 			}
 
 			//REGION
 			if(i == 9){
-				P->Px->region = get_csv_field(linea,i);
+				Px->region = get_csv_field(linea,i);
 
-				printf("%s\n", P->Px->region);
+				printf("%s\n", Px->region);
 			}
 
 		}
+		//INSERTAR EN MAPA POKEMON USUARIO //
+		insertMap(*PokemonUsuario_id, &PokUser->id, PokUser);
+		*totalPokemon = *totalPokemon + 1;
 
 		//VERIFICAR EXISTENCIA PREVIA EN LA POKEDEX
 		bool PokemonRepetido = false;
-		if(MapaPokemon != NULL){
-			// Se recorre el arreglo y se busca si existe registro previo
-			infoPokemon *registro = (infoPokemon*) firstMap(MapaPokemon);
-			while(registro != NULL){
-				/* Si los numeros de la pokedex del pokemon que se ingresa por lectura y el del registro coincide se suma 1
-				   a la existencia de la pokedex del registro, y los valores de la pokedex del pokemon de lectura se
-				   inicializan en NULL (string) o -1 (entero) porque existe registro previo*/
-				if( ( registro->Px->numeroPokedex == P->Px->numeroPokedex ) && /*( registro->PokUser->id != P->PokUser->id ) &&*/ registro->Px->numeroPokedex > 0){
-					printf("(%d) %d = (%d) %d\n", registro->PokUser->id, registro->Px->numeroPokedex, P->PokUser->id, P->Px->numeroPokedex);
-					registro->Px->existencia++;
-					memset(P->Px->nombre, '\0', 50);
-					memset(P->Px->evolucionPrevia, '\0', 20);
-					memset(P->Px->evolucionPosterior, '\0', 20);
-					memset(P->Px->region, '\0', 20);
+		if(*PokemonUsuario_id != NULL && *Pokedex_num != NULL && *Pokedex_nombre != NULL){
+			// Se busca el pokemon en la pokedex
+			Pokedex *registro = (Pokedex*) searchMap(*Pokedex_nombre, Px->nombre);
 
-					P->Px->existencia = -1;
-					P->Px->numeroPokedex = -1;
-					PokemonRepetido = true;
-
-					printf("\n%d | %s | %d | %d | %s | %s | %d | %s | %s | %s | %d | %s\n", P->PokUser->id, P->PokUser->nombre, P->PokUser->PC, P->PokUser->PS, P->PokUser->sexo, P->Px->nombre, P->Px->existencia, P->Px->tipo, P->Px->evolucionPrevia, P->Px->evolucionPosterior, P->Px->numeroPokedex, P->Px->region);
-					break;
-				}
-				registro = (infoPokemon*) nextMap(MapaPokemon);
+			if(registro){
+				registro->existencia++;
+				PokemonRepetido = true;
 			}
 			free(registro);
 		}
-		if(PokemonRepetido == false) *totalPokemonPokedex = *totalPokemonPokedex + 1;
-		//INSERTAR EN MAPA //
-		insertMap(MapaPokemon, &P->PokUser->id, P);
-		*totalPokemon = *totalPokemon + 1;
+		
+		if(PokemonRepetido == false){
+			// INSERTAR EN MAPAS POKEDEX //
+			insertMap(*Pokedex_num, &Px->numeroPokedex, Px);
+			insertMap(*Pokedex_nombre, Px->nombre, Px);
+			*totalPokemonPokedex = *totalPokemonPokedex + 1;
+		}
+		
 	}
 	//CERRAR ARCHIVO IMPORTADO//
 	fclose(fp);
@@ -344,14 +307,14 @@ Map *importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map *MapaPokemo
 	printf("TOTAL POKEMON POKEDEX: %d\n", *totalPokemonPokedex);
 
 	//TESTING //
-	infoPokemon *test = (infoPokemon*) firstMap(MapaPokemon);
+	Pokemon_usuario *test = (Pokemon_usuario*) firstMap(*PokemonUsuario_id);
 	while(test != NULL){
-		printf("\n%d | %s | %d | %d | %s | %s | %d | %s | %s | %s | %d | %s\n", test->PokUser->id, test->PokUser->nombre, test->PokUser->PC, test->PokUser->PS, test->PokUser->sexo, test->Px->nombre, test->Px->existencia, test->Px->tipo, test->Px->evolucionPrevia, test->Px->evolucionPosterior, test->Px->numeroPokedex, test->Px->region);
-		test = (infoPokemon*) nextMap(MapaPokemon);
+		printf("\n%d | %s | %d | %d | %s\n", test->id, test->nombre, test->PC, test->PS, test->sexo);
+		test = (Pokemon_usuario*) nextMap(*PokemonUsuario_id);
 	}
 	free(test);
 	//FIN TESTING //
-	return MapaPokemon;
+	return;
 
 	/* HAY QUE EL TEMA DE LOS POKEMONES REPETIDOS DE LA POKEDEX
 	Y EL ULTIMO POKEMON NO COPIA BIEN EL ULTIMO CARACTER DE LA REGION*/

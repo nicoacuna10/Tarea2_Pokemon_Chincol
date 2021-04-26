@@ -7,8 +7,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -22,32 +22,29 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-typedef struct{
-	Pokemon_usuario* PokUser; 
-	Pokedex* Px;
-}infoPokemon;
-
-void buscarMisPokemonPorNombre(Map *MapaPokemon, char nombre[50]){
-	if(MapaPokemon == NULL){
+void buscarMisPokemonPorNombre(Map *PokemonUsuario_id){
+	if(PokemonUsuario_id == NULL){
 		printf("No se tiene registro previo para realizar esta funcion\n\n");
 		return;
 	}
 
 	bool hayPokemon = false;
+	char nombre[50];
+
 	printf("Ingrese nombre de Pokemon: ");
 	scanf("%[^\n]s", nombre);
 	getchar();
 
-	// Se recorre Mapa Pokemon y se imprimen los Pokemones del almacenamiento del usuario que corresponden al el nombre ingresado
-	infoPokemon *aux = (infoPokemon*) firstMap(MapaPokemon);
+	// Se recorre Mapa Pokemon y se imprimen los Pokemones del almacenamiento del usuario que corresponden con el nombre ingresado
+	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
 
 	printf("Pokemones %s:\n", nombre);
 	while(aux != NULL){
-		if( strcmp(aux->PokUser->nombre, nombre) == 0){
-			printf("%d - %s - %d - %d - %s\n", aux->PokUser->id, aux->PokUser->nombre, aux->PokUser->PC, aux->PokUser->PS, aux->PokUser->sexo);
+		if( strcmp(aux->nombre, nombre) == 0){
+			printf("%d - %s - %d - %d - %s\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
 			hayPokemon = true;
 		}
-		aux = (infoPokemon*) nextMap(MapaPokemon);
+		aux = (Pokemon_usuario*) nextMap(PokemonUsuario_id);
 
 	}
 

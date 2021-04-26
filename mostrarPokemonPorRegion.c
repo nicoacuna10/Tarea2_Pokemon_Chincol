@@ -7,8 +7,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -22,38 +22,35 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-typedef struct{
-	Pokemon_usuario* PokUser; 
-	Pokedex* Px;
-}infoPokemon;
-
-void mostrarPokemonPorRegion(Map *MapaPokemon, char region[20]){
-	if(MapaPokemon == NULL){
+void mostrarPokemonPorRegion(Map *Pokedex_num){
+	if(Pokedex_num == NULL){
 		printf("No se tiene registro previo para realizar esta funcion\n\n");
 		return;
 	}
 
 	bool hayPokemonesDeLaRegion = false;
-	//int contPokemonR = 0;
+	int contPokemonR = 0;
+	char region[20];
+	
 	printf("Ingrese region: ");
 	scanf("%[^\n]s", region);
 	getchar();
 
 	// Se recorre MapaPokemon y se va imprimiendo los pokemones que correspondan a la region ingresada
-	infoPokemon *aux = (infoPokemon*) firstMap(MapaPokemon);
+	Pokedex *aux = (Pokedex*) firstMap(Pokedex_num);
 
 	printf("Pokemones de la region %s:\n\n", region);
 	while(aux != NULL){
-		if( strcmp(aux->Px->region, region) == 0){
-			printf("%s - %s - %s - %s - %d - %s\n\n", aux->Px->nombre, aux->Px->tipo, aux->Px->evolucionPrevia, aux->Px->evolucionPosterior,
-		aux->Px->numeroPokedex, aux->Px->region);
-			//contPokemonR += aux->Px->existencia;
+		if( strcmp(aux->region, region) == 0){
+			printf("%s - %s - %s - %s - %d - %s\n\n", aux->nombre, aux->tipo, aux->evolucionPrevia, aux->evolucionPosterior, aux->numeroPokedex, aux->region);
+			contPokemonR += aux->existencia;
 			hayPokemonesDeLaRegion = true;
 		}
-		aux = (infoPokemon*) nextMap(MapaPokemon);
+		aux = (Pokedex*) nextMap(Pokedex_num);
 	}
 
+	if(hayPokemonesDeLaRegion == true) printf("Existen %d pokemones de la region %s\n\n", contPokemonR, region);
 	// Si no se encuentra ningun pokemon de la region ingresada, se indica que no existe registro
-	if(hayPokemonesDeLaRegion == false) printf("\nNo existen pokemones de la region %s\n", region);
+	if(hayPokemonesDeLaRegion == false) printf("\nNo existen pokemones de la region %s\n\n", region);
 	return;
 }

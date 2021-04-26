@@ -7,8 +7,8 @@
 typedef struct{
 	int id;
 	char* nombre;
-	float PC;
-	float PS;
+	int PC;
+	int PS;
 	char* sexo;
 }Pokemon_usuario;
 
@@ -22,54 +22,40 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-typedef struct{
-	Pokemon_usuario* PokUser;
-	Pokedex* Px;
-}infoPokemon;
 
-void buscarMisPokemonPorNombre(Map *MapaPokemon, char nombre[50]);
+void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_nombre){
+	if(PokemonUsuario_id == NULL || Pokedex_nombre == NULL){
+		printf("Por favor importe datos antes de entrar a esta funcion\n\n");
+		return;
+	}
 
-void evolucionarPokemon(Map* MapaPokemon){
-	int id = 0;
-	char vectorNombre[50];
-	memset(vectorNombre, '\0', 50);
-
+	int id;
 	printf("Ingrese id Pokemon: ");
 	scanf("%d", &id);
 	getchar();
 
-	infoPokemon *aux = (infoPokemon*) searchMap(MapaPokemon, &id);
-	if(aux == NULL){
+	Pokemon_usuario *aux = (Pokemon_usuario*) searchMap(PokemonUsuario_id, &id);
+	if(!aux){
 		printf("No existe pokemon con la id %d\n\n", id);
 		free(aux);
 		return;
 	}
 
 	// Testing //
-	printf("\n%d | %s | %d | %d | %s\n", aux->PokUser->id, aux->PokUser->nombre, aux->PokUser->PC, aux->PokUser->PS, aux->PokUser->sexo);
+	printf("\n%d | %s | %d | %d | %s\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
 
-	strcpy(vectorNombre, aux->Px->evolucionPosterior);
-	printf("%s\n\n", vectorNombre);
-
-	if( strcmp(vectorNombre, "No tiene") == 0){
-		printf("El pokemon %s no tiene evolucion posterior\n\n", aux->PokUser->nombre);
+	Pokedex *aux2 = (Pokedex*) searchMap(Pokedex_nombre, aux->nombre);
+	if( strcmp(aux2->evolucionPosterior, "No tiene") == 0){
+		printf("El pokemon %s no tiene evolucion posterior\n\n", aux->nombre);
+		free(aux);
+		free(aux2);
 		return;
 	}
-
-	infoPokemon *aux2 = (infoPokemon*) firstMap(MapaPokemon);
-	assert(aux2 != NULL);
-
-	while(aux2 != NULL){
-		if( strcmp(vectorNombre, aux->Px->nombre) == 0){
-			//aux->PokUser->PC *= 1.50;  
-			//aux->PokUser->PS *= 1.25;
-			strcpy(aux->PokUser->nombre,vectorNombre);
-			//strcpy(aux->Px->evolucionPosterior, aux2->Px->nombre);
-			break;
-		}
-		aux2 = (infoPokemon*) nextMap(MapaPokemon);
-	}
-	//free(aux);
+	strcpy(aux->nombre, aux2->evolucionPosterior);
+	aux->PC *= 1.5;
+	aux->PS *= 1.25;
+	printf("%d - %s - %d - %d - %s\n\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
+	free(aux);
 	free(aux2);
 	return;
 }
