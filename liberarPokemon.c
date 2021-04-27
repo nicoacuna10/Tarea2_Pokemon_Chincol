@@ -23,8 +23,8 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-void liberarPokemon(Map *PokemonUsuario_id, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex){
-	if(PokemonUsuario_id == NULL || Pokedex_nombre == NULL){
+void liberarPokemon(Map **PokemonUsuario_id, Map **Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex){
+	if(*PokemonUsuario_id == NULL || *Pokedex_nombre == NULL){
 		printf("Por favor importe datos antes de ingresar a esta funcion.\n\n");
 		return;
 	}
@@ -36,22 +36,23 @@ void liberarPokemon(Map *PokemonUsuario_id, Map *Pokedex_nombre, int *totalPokem
 	getchar();
 
 	// ELIMINAR POKEMON DEL ALMACENAMIENTO CON LLAVE ID
-	Pokemon_usuario *aux = (Pokemon_usuario*) eraseMap(PokemonUsuario_id, &id);
+	Pokemon_usuario *aux = (Pokemon_usuario*) eraseMap(*PokemonUsuario_id, &id);
 
 	//TESTING
 	printf("%d - %s - %d - %d - %s\n\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
 
 	// Si se elimino el pokemon del almacenamiento, se descuenta 1 la existencia de la Pokedex
 	if(aux){
-		Pokedex *registro = (Pokedex*) searchMap(Pokedex_nombre, aux->nombre);
-		registro->existencia--;
+		Pokedex *registro = (Pokedex*) searchMap(*Pokedex_nombre, aux->nombre);
+		if(registro->existencia > 0) registro->existencia--;
+		
+
+		//Testing
 		printf("%s - %d - %s - %s - %s - %d - %s\n\n", registro->nombre, registro->existencia, registro->tipo, registro->evolucionPrevia, registro->evolucionPosterior, registro->numeroPokedex, registro->region);
 	
 		printf("Pokemon eliminado\n\n");
-		free(registro);
 		
 		*totalPokemon = *totalPokemon - 1;
-		*totalPokemonPokedex = *totalPokemonPokedex - 1;
 	}
 	
 

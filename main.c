@@ -66,8 +66,8 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num);
 void buscarMisPokemonPorNombre(Map *PokemonUsuario_id);
 void buscarPorNombreEnPokedex(Map *Pokedex_nombre);
 void mostrarTodosLosPokemonDeLaPokedex(Map *Pokemon_nombre, int totalPokemonPokedex);
-void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id);
-void liberarPokemon(Map *PokemonUsuario_id, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
+void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon);
+void liberarPokemon(Map **PokemonUsuario_id, Map **Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
 void mostrarPokemonPorRegion(Map *Pokedex_num);
 
 int main(void){
@@ -89,12 +89,13 @@ int main(void){
 		if(opcionElegida == 5) buscarMisPokemonPorNombre(PokemonUsuario_id);
 		if(opcionElegida == 6) buscarPorNombreEnPokedex(Pokedex_nombre);
 		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(Pokedex_nombre, totalPokemonPokedex);
-		if(opcionElegida == 8) mostrarPokemonPorMayorPC(PokemonUsuario_id);
-		if(opcionElegida == 9) liberarPokemon(PokemonUsuario_id, Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
+		if(opcionElegida == 8) mostrarPokemonPorMayorPC(PokemonUsuario_id, totalPokemon);
+		if(opcionElegida == 9) liberarPokemon(&PokemonUsuario_id, &Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
 		if(opcionElegida == 10) mostrarPokemonPorRegion(Pokedex_num);
 	}while(menu != 0);
 
-
+	/*PROBLEMAS : Se repiten pokemones en la funcion mostrarTodosLosPokemonesDeLaPokedex
+	              No se guarda el último caracter del archivo*/
 
 
 	printf("\n¡Adios!\n");

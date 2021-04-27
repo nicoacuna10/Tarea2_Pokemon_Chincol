@@ -305,13 +305,25 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 	printf("TOTAL POKEMON: %d\n", *totalPokemon);
 	printf("TOTAL POKEMON POKEDEX: %d\n", *totalPokemonPokedex);
 
-	//TESTING //
+	printf("TESTING:/n/n");
+	//TESTING ALMACENAMIENTO//
 	Pokemon_usuario *test = (Pokemon_usuario*) firstMap(*PokemonUsuario_id);
 	while(test != NULL){
 		printf("\n%d | %s | %d | %d | %s\n", test->id, test->nombre, test->PC, test->PS, test->sexo);
 		test = (Pokemon_usuario*) nextMap(*PokemonUsuario_id);
 	}
 	free(test);
+
+	//TESTING POKEDEX //
+	Pokedex *test2 = (Pokedex*) firstMap(*Pokedex_num);
+	i = 0;
+	while(test2 != NULL){
+		printf("\n%d | %s | %s | %s | %s | %d | %s\n", test2->existencia, test2->nombre, test2->tipo, test2->evolucionPrevia, test2->evolucionPosterior, test2->numeroPokedex, test2->region);
+		test2 = (Pokedex*) nextMap(*Pokedex_num);
+		i++;
+	}
+	printf("%d\n", i);
+	free(test2);
 	//FIN TESTING //
 	return;
 

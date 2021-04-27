@@ -29,30 +29,21 @@ int comparar(const void *a, const void *b){
 	return ( *ptrB - *ptrA);
 }
 
-void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id){
+void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 	if(PokemonUsuario_id == NULL){
 		printf("Por favor importe datos antes de entrar a esta funcion\n\n");
 		return;
 	}
 
-	int totalPokemon = 0;
 	int contador = 0;
 	int i = 0;
-	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
-	assert(aux != NULL);
-
-	//Primero se busca la cantidad de pokemones//
-	while(aux != NULL){
-		totalPokemon++;
-		aux = (Pokemon_usuario *) nextMap(PokemonUsuario_id);
-	}
 
 	//Luego se crea vector int con números desordenados//
 	int *numerosPC = (int *) malloc(totalPokemon * sizeof(int) );
 	assert(numerosPC != NULL);
 	
 	//Se guardan numeros en el vector//
-	aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
+	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
 	assert(aux != NULL);
 
 	for(i = 0; i < totalPokemon; i++){
