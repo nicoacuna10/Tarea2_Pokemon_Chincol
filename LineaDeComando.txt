@@ -1,0 +1,1 @@
+gcc main.c menu.c Map.c importarExportarPokemonDesdeUnArchivo.c pokemonAtrapado.c buscarMisPokemonPorTipo.c buscarMisPokemonPorNombre.c buscarPorNombreEnPokedex.c mostrarTodosLosPokemonDeLaPokedex.c mostrarPokemonPorMayorPC.c liberarPokemon.c mostrarPokemonPorRegion.c evolucionarPokemon.c -o main
