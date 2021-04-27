@@ -82,7 +82,7 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 
 	//EXPORTAR ARCHIVO .CSV//
 	if(opcionIoE[0] == '2'){
-		if(PokemonUsuario_id == NULL || Pokedex_num == NULL){
+		if(PokemonUsuario_id == NULL || Pokedex_nombre == NULL){
 			printf("\nImportar!\n");
 			return;
 		}
@@ -91,26 +91,25 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 		getchar();
 
 		//ABIR ARCHIVO A EXPORTAR //
-		FILE *fp = fopen(nombre_archivo, "r+");
+		FILE *fp = fopen(nombre_archivo, "w");
+		if(fp == NULL){
+			printf("Error al abrir archivo\n\n");
+			return;
+		}
 		
 		char linea[1000];
-		int i;
 		Pokemon_usuario *PokUser;
-		Pokedex *PX;
+		Pokedex *Px;
 
 		//ESCRIBIR INFO EN ARCHIVO A EXPORTAR //
 		fprintf( fp, "id,nombre,tipos,pc,ps,sexo,evolucion previa,evolucion posterior,numero pokedex,region\n");
 
-		/*P = (infoPokemon*) firstMap(MapaPokemon);
-		while(P != NULL){
-			fprintf(fp, "%d,%s,", P->PokUser->id, P->PokUser->nombre);
-			fprintf(fp, "%s,%d,", P->Px->tipo, P->PokUser->PC);
-			fprintf(fp, "%d,%s,", P->PokUser->PS, P->PokUser->sexo);
-			fprintf(fp, "%s,%s,", P->Px->evolucionPrevia, P->Px->evolucionPosterior);
-			fprintf(fp, "%d,%s\n", P->Px->numeroPokedex, P->Px->region);
-			i++;
-			P = (infoPokemon*) nextMap(MapaPokemon);
-		}*/
+		PokUser = (Pokemon_usuario*) firstMap(*PokemonUsuario_id);
+		while(PokUser != NULL){
+			Px = (Pokedex*) searchMap(*Pokedex_nombre, PokUser->nombre);
+			fprintf(fp, "%d,%s,\"%s\",%d,%d,%s,%s,%s,%d,%s\n", PokUser->id, PokUser->nombre, Px->tipo, PokUser->PC, PokUser->PS, PokUser->sexo, Px->evolucionPrevia, Px->evolucionPosterior, Px->numeroPokedex, Px->region);
+			PokUser = (Pokemon_usuario*) nextMap(*PokemonUsuario_id);
+		}
 
 		//CERRRAR ARCHIVO EXPORTADO //
 		fclose(fp);
@@ -316,6 +315,5 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 	//FIN TESTING //
 	return;
 
-	/* HAY QUE EL TEMA DE LOS POKEMONES REPETIDOS DE LA POKEDEX
-	Y EL ULTIMO POKEMON NO COPIA BIEN EL ULTIMO CARACTER DE LA REGION*/
+	/* EL ULTIMO POKEMON NO COPIA BIEN EL ULTIMO CARACTER DE LA REGION*/
 }

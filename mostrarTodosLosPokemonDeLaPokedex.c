@@ -21,14 +21,14 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex){
+void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_nombre, int totalPokemonPokedex){
 	//En caso de entrar a la función sin importar un archivo//
-	if(Pokedex_num == NULL){
+	if(Pokedex_nombre == NULL){
 		printf("No se tiene registro previo para realizar esta funcion\n\n");
 		return;
 	}
 
-	Pokedex *aux = (Pokedex *) firstMap(Pokedex_num);
+	Pokedex *aux = (Pokedex *) firstMap(Pokedex_nombre);
 	if(aux == NULL){
 		printf("Error en inicializar memoria en variable 'aux' en funcion mostrarTodosLosPokemonDeLaPokedex\n\n");
 		exit(1);
@@ -38,8 +38,8 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 	while(aux != NULL){
 		printf("%s - %s - %s - %s - %d - %s - %d\n\n", aux->nombre, aux->tipo, aux->evolucionPrevia, aux->evolucionPosterior,
 		aux->numeroPokedex, aux->region, aux->existencia);
-		//Existencia no aparecer por pantalla porque se pierde preliminarmente no se inicializa en cero//
-		aux = (Pokedex*) nextMap(Pokedex_num);
+		
+		aux = (Pokedex*) nextMap(Pokedex_nombre);
 	}
 
 	free(aux);

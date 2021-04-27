@@ -60,33 +60,37 @@ int lower_than_int(void * key1, void * key2) {
 void menu(int *opcion);
 
 void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUsuario_id, Map **Pokedex_num , Map **Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
-void pokemonAtrapado(Map *MapaPokemon, Map *Pokedex_num, Map *Pokedex_nombre, int *totalPokemon);
+void pokemonAtrapado(Map *MapaPokemon, Map *Pokedex_num, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
 void evolucionarPokemon(Map *PokemonUsuario_id, Map *Pokedex_nombre);
 void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num);
 void buscarMisPokemonPorNombre(Map *PokemonUsuario_id);
 void buscarPorNombreEnPokedex(Map *Pokedex_nombre);
-void mostrarTodosLosPokemonDeLaPokedex(Map *Pokemon_num, int totalPokemonPokedex);
-void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id); //Pendiente
-void liberarPokemon(Map * PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nombre);
+void mostrarTodosLosPokemonDeLaPokedex(Map *Pokemon_nombre, int totalPokemonPokedex);
+void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id);
+void liberarPokemon(Map *PokemonUsuario_id, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
 void mostrarPokemonPorRegion(Map *Pokedex_num);
 
 int main(void){
 	int opcionElegida, totalPokemon = 0, totalPokemonPokedex = 0;
 	char nombre_archivo[100];
-	Map *PokemonUsuario_id = createMap(is_equal_int), *Pokedex_num = createMap(is_equal_int), *Pokedex_nombre = createMap(is_equal_string);
+
+	// CREACION MAPAS //
+	Map *PokemonUsuario_id = createMap(is_equal_int); // ALMACENAMIENTO DEL USUARIO CON LLAVE EL ID DEL POKEMON
+	Map *Pokedex_num = createMap(is_equal_int); // POKEDEX CON LLAVE EL NUMERO DE LA POKEDEX
+	Map *Pokedex_nombre = createMap(is_equal_string); // POKEDEX CON LLAVE EL NOMBRE DEL POKEMON
 
 	do{
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
 		if(opcionElegida == 1) importarExportarPokemonDesdeUnArchivo(nombre_archivo, &PokemonUsuario_id, &Pokedex_num, &Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
-		if(opcionElegida == 2) pokemonAtrapado(PokemonUsuario_id, Pokedex_num, Pokedex_nombre, &totalPokemon);
+		if(opcionElegida == 2) pokemonAtrapado(PokemonUsuario_id, Pokedex_num, Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
 		if(opcionElegida == 3) evolucionarPokemon(PokemonUsuario_id, Pokedex_nombre);
 		if(opcionElegida == 4) buscarMisPokemonPorTipo(PokemonUsuario_id, Pokedex_num);
 		if(opcionElegida == 5) buscarMisPokemonPorNombre(PokemonUsuario_id);
 		if(opcionElegida == 6) buscarPorNombreEnPokedex(Pokedex_nombre);
-		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(Pokedex_num, totalPokemonPokedex);
+		if(opcionElegida == 7) mostrarTodosLosPokemonDeLaPokedex(Pokedex_nombre, totalPokemonPokedex);
 		if(opcionElegida == 8) mostrarPokemonPorMayorPC(PokemonUsuario_id);
-		if(opcionElegida == 9) liberarPokemon(PokemonUsuario_id, Pokedex_num, Pokedex_nombre);
+		if(opcionElegida == 9) liberarPokemon(PokemonUsuario_id, Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
 		if(opcionElegida == 10) mostrarPokemonPorRegion(Pokedex_num);
 	}while(menu != 0);
 

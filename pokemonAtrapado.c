@@ -23,7 +23,7 @@ typedef struct{
 	char* region;
 }Pokedex;
 
-void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nombre, int *totalPokemon){
+void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex){
 	if(PokemonUsuario_id == NULL || Pokedex_num == NULL || Pokedex_nombre == NULL){
 		printf("Por favor importe archivos antes de iniciar esta funcion\n\n");
 		return;
@@ -74,9 +74,16 @@ void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nomb
 		getchar();
 		strcpy(PokUser->nombre, nombre);
 
+		//Se suma 1 a la existencia de la pokedex
+		busquedaEnPokedex->existencia++;
+
 		//Testing//
 		printf("%s %d %d %s\n\n", PokUser->nombre, PokUser->PC, PokUser->PS, PokUser->sexo);
+
+		// Se inserta en el almacenamiento del usuario
 		insertMap(PokemonUsuario_id, &PokUser->id, PokUser); // HAY QUE REVISAR SI ID SE CREA O SE PIDO POR USUARIO//
+
+		*totalPokemon = *totalPokemon + 1;
 		return;
 	}
 
@@ -146,9 +153,14 @@ void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nomb
 
 
 		printf("%s %d %d %s\n\n", PokUser->nombre, PokUser->PC, PokUser->PS, PokUser->sexo);
+
+		// Se inserta en el almacenamiento del usuario y en la pokedex (no registra existencia previa)
 		insertMap(PokemonUsuario_id, &PokUser->id, PokUser); // HAY QUE REVISAR SI ID SE CREA O SE PIDO POR USUARIO//
 		insertMap(Pokedex_num, &Px->numeroPokedex, Px);
 		insertMap(Pokedex_nombre, Px->nombre, Px);
+
+		*totalPokemon = *totalPokemon + 1;
+		*totalPokemonPokedex = *totalPokemonPokedex + 1;
 	}
 
 	return;

@@ -114,6 +114,7 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 			printf("\nTotal tipos: %d\n", tallavector);
 			*/
 			//Fin Testing//
+			aux2 = (Pokemon_usuario*) nextMap(PokemonUsuario_id);
 		}
 		free(aux2);
 		//Se libera memoria del vector dinámico que guarda cada uno de los tipos que posee el pokemon//
