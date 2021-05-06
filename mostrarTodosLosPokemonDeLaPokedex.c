@@ -26,7 +26,7 @@ int cmpFunc(const void *a, const void *b){
 	int *ptrA = (int *)a;
 	int *ptrB = (int *)b;
 
-	return *ptrB - *ptrA;
+	return *ptrA - *ptrB;
 }
 
 void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex){
@@ -42,7 +42,6 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 	assert(numerosOrdenadosDeLaPokedex!= NULL);
 
 	Pokedex *aux = (Pokedex *) firstMap(Pokedex_num);
-	assert(aux != NULL);
 
 	for(int i = 0; i < totalPokemonPokedex; i++){
 		numerosOrdenadosDeLaPokedex[i] = aux->numeroPokedex;
@@ -54,21 +53,55 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 
 
 	aux = (Pokedex*) firstMap(Pokedex_num);
-	int i = 0, contador = 0;
+	int i = 0, k, espacios;
+	char num[6];
+
 	printf("Total Pokemon Pokedex: %d\n", totalPokemonPokedex);
+	printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------------------- \n");
+	printf("| NOMBRE               | TIPO(S)                        | EVOLUCION PREVIA     | EVOLUCION POSTERIOR  | NUMERO POKEDEX       | REGION               | EXISTENCIA |\n");
+	printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------------------- \n");
 
 	while(i < totalPokemonPokedex){
 		if(numerosOrdenadosDeLaPokedex[i] == aux->numeroPokedex){
-			printf("%d : %s - %s - %s - %s - %d - %s - %d\n\n", i, aux->nombre, aux->tipo, aux->evolucionPrevia, aux->evolucionPosterior,
-			aux->numeroPokedex, aux->region, aux->existencia);
+			printf("| %s", aux->nombre);
+			int espacios = 20 - strlen(aux->nombre);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %s", aux->tipo);
+			espacios = 30 - strlen(aux->tipo);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %s", aux->evolucionPrevia);
+			espacios = 20 - strlen(aux->evolucionPrevia);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %s", aux->evolucionPosterior);
+			espacios = 20 - strlen(aux->evolucionPosterior);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %d", aux->numeroPokedex);
+			itoa(aux->numeroPokedex, num, 10);
+			espacios = 20 - strlen(num);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %s", aux->region);
+			espacios = 20 - strlen(aux->region);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %d", aux->existencia);
+			itoa(aux->existencia, num, 10);
+			espacios = 10 - strlen(num);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" |\n ---------------------------------------------------------------------------------------------------------------------------------------------------------------- \n");
 			i++;
-			if(aux->existencia > 1) contador++;
-		}	
+		}
+		
 
 		aux = (Pokedex*) nextMap(Pokedex_num);
 		if(aux == NULL) aux = (Pokedex*) firstMap(Pokedex_num);
 	}
-	printf("%d\n", contador);
+	printf("%d\n", i);
 	free(aux);
 	printf("Funcion mostrar finalizada con exito\n\n");
 	return;

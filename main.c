@@ -77,7 +77,9 @@ int main(void){
 	// CREACION MAPAS //
 	Map *PokemonUsuario_id = createMap(is_equal_int); // ALMACENAMIENTO DEL USUARIO CON LLAVE EL ID DEL POKEMON
 	Map *Pokedex_num = createMap(is_equal_int); // POKEDEX CON LLAVE EL NUMERO DE LA POKEDEX
+	setSortFunction(Pokedex_num, lower_than_int);
 	Map *Pokedex_nombre = createMap(is_equal_string); // POKEDEX CON LLAVE EL NOMBRE DEL POKEMON
+	setSortFunction(Pokedex_nombre, lower_than_string);
 
 	do{
 		menu(&opcionElegida);
@@ -94,9 +96,9 @@ int main(void){
 		if(opcionElegida == 10) mostrarPokemonPorRegion(Pokedex_num);
 	}while(menu != 0);
 
-	/*PROBLEMAS : Se repiten pokemones en la funcion mostrarTodosLosPokemonesDeLaPokedex
-	              No se guarda el último caracter del archivo*/
-
+	free(PokemonUsuario_id);
+	free(Pokedex_num);
+	free(Pokedex_nombre);
 
 	printf("\n¡Adios!\n");
 	return 0;

@@ -36,7 +36,7 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 	}
 
 	int contador = 0;
-	int i = 0;
+	int i = 0, k;
 
 	//Luego se crea vector int con números desordenados//
 	int *numerosPC = (int *) malloc(totalPokemon * sizeof(int) );
@@ -44,7 +44,6 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 	
 	//Se guardan numeros en el vector//
 	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
-	assert(aux != NULL);
 
 	for(i = 0; i < totalPokemon; i++){
 		numerosPC[i] = aux->PC;
@@ -57,16 +56,45 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 
 	// Se busca por metodo de fuerza bruta los pokemones que posean el PC segun el vector 'numerosPC'//
 	aux = (Pokemon_usuario *) firstMap(PokemonUsuario_id);
+
+	int espacios;
+	char num[7];
+	printf(" ----------------------------------------------------------\n");
+	printf("| ID  | NOMBRE               | PC     | PS     | SEXO      |\n");
+	printf(" ----------------------------------------------------------\n");
+
 	while(contador < totalPokemon){
 		if(aux->PC == numerosPC[i]){
-			printf("%d - %s - %d - %d - %s\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
+			printf("| %d", aux->id);
+			itoa(aux->id, num, 10);
+			espacios = 3 - strlen(num);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %s", aux->nombre);
+			espacios = 20 - strlen(aux->nombre);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %d", aux->PC);
+			itoa(aux->PC, num, 10);
+			espacios = 6 - strlen(num);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %d", aux->PS);
+			itoa(aux->PS, num, 10);
+			espacios = 6 - strlen(num);
+			for(k = 0; k < espacios; k++) printf(" ");
+
+			printf(" | %s", aux->sexo);
+			espacios = 9 - strlen(aux->sexo);
+			for(k = 0; k < espacios; k++) printf(" ");
+			
+			printf(" |\n ----------------------------------------------------------\n");
 			i++;
 			contador++;
 		}
 		
 		aux = (Pokemon_usuario *) nextMap(PokemonUsuario_id);
 		if(aux == NULL) aux =(Pokemon_usuario*) firstMap(PokemonUsuario_id);
-		//if(i >= totalPokemon) i = 0;
 	}
 
 	// OJO SE IMPRIMEN SOLO 92 POKEMONES EN VEZ DE LOS 96//

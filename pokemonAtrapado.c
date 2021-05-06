@@ -57,7 +57,7 @@ void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nomb
 		PokUser->nombre = (char *) malloc(50 * sizeof(char) );
 		assert(PokUser->nombre != NULL);
 
-		PokUser->sexo = (char *) malloc(7 * sizeof(char) );
+		PokUser->sexo = (char *) malloc(9 * sizeof(char) );
 		assert(PokUser->sexo != NULL);
 	
 		//PREGUNTAR SI hay que poner id por usuario o no//

@@ -107,7 +107,16 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 		PokUser = (Pokemon_usuario*) firstMap(*PokemonUsuario_id);
 		while(PokUser != NULL){
 			Px = (Pokedex*) searchMap(*Pokedex_nombre, PokUser->nombre);
-			fprintf(fp, "%d,%s,\"%s\",%d,%d,%s,%s,%s,%d,%s\n", PokUser->id, PokUser->nombre, Px->tipo, PokUser->PC, PokUser->PS, PokUser->sexo, Px->evolucionPrevia, Px->evolucionPosterior, Px->numeroPokedex, Px->region);
+			
+			int contadorTipos = 1;
+			for(int i = 0; Px->tipo[i]; i++){
+				if(Px->tipo[i] == ',') contadorTipos++;
+			}
+
+			if(contadorTipos > 1){
+				fprintf(fp, "%d,%s,\"%s\",%d,%d,%s,%s,%s,%d,%s\n", PokUser->id, PokUser->nombre, Px->tipo, PokUser->PC, PokUser->PS, PokUser->sexo, Px->evolucionPrevia, Px->evolucionPosterior, Px->numeroPokedex, Px->region);
+			}else fprintf(fp, "%d,%s,%s,%d,%d,%s,%s,%s,%d,%s\n", PokUser->id, PokUser->nombre, Px->tipo, PokUser->PC, PokUser->PS, PokUser->sexo, Px->evolucionPrevia, Px->evolucionPosterior, Px->numeroPokedex, Px->region);
+
 			PokUser = (Pokemon_usuario*) nextMap(*PokemonUsuario_id);
 		}
 
@@ -278,15 +287,17 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 
 		//VERIFICAR EXISTENCIA PREVIA EN LA POKEDEX
 		bool PokemonRepetido = false;
+		Pokedex *registro, *registro2;
 		if(*PokemonUsuario_id != NULL && *Pokedex_num != NULL && *Pokedex_nombre != NULL){
 			// Se busca el pokemon en la pokedex
-			Pokedex *registro = (Pokedex*) searchMap(*Pokedex_nombre, Px->nombre);
+			registro = (Pokedex*) searchMap(*Pokedex_nombre, PokUser->nombre);
+			registro2 = (Pokedex*) searchMap(*Pokedex_num, &Px->numeroPokedex);
 
-			if(registro){
+			if(registro!= NULL && registro2 != NULL){
 				registro->existencia++;
 				PokemonRepetido = true;
 			}
-			free(registro);
+			
 		}
 		
 		if(PokemonRepetido == false){
@@ -294,8 +305,12 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 			insertMap(*Pokedex_num, &Px->numeroPokedex, Px);
 			insertMap(*Pokedex_nombre, Px->nombre, Px);
 			*totalPokemonPokedex = *totalPokemonPokedex + 1;
+			// Con estos free no se cae, sin estos free se cae :(
+			//free(registro); 
+			//free(registro2);
 		}
 		
+
 	}
 	//CERRAR ARCHIVO IMPORTADO//
 	fclose(fp);
@@ -305,8 +320,10 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 	printf("TOTAL POKEMON: %d\n", *totalPokemon);
 	printf("TOTAL POKEMON POKEDEX: %d\n", *totalPokemonPokedex);
 
-	printf("TESTING:/n/n");
+	//INICIO TESTING //
+
 	//TESTING ALMACENAMIENTO//
+	printf("\nTESTING ALMACENAMIENTO:\n");
 	Pokemon_usuario *test = (Pokemon_usuario*) firstMap(*PokemonUsuario_id);
 	while(test != NULL){
 		printf("\n%d | %s | %d | %d | %s\n", test->id, test->nombre, test->PC, test->PS, test->sexo);
@@ -314,16 +331,29 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 	}
 	free(test);
 
-	//TESTING POKEDEX //
+	//TESTING POKEDEX CON CLAVE NUMERO DE POKEDEX//
+	printf("\nTESTING POKEDEX CON CLAVE NUM:\n");
 	Pokedex *test2 = (Pokedex*) firstMap(*Pokedex_num);
 	i = 0;
 	while(test2 != NULL){
-		printf("\n%d | %s | %s | %s | %s | %d | %s\n", test2->existencia, test2->nombre, test2->tipo, test2->evolucionPrevia, test2->evolucionPosterior, test2->numeroPokedex, test2->region);
+		printf("\n%d: %d | %s | %s | %s | %s | %d | %s\n", i+1, test2->existencia, test2->nombre, test2->tipo, test2->evolucionPrevia, test2->evolucionPosterior, test2->numeroPokedex, test2->region);
 		test2 = (Pokedex*) nextMap(*Pokedex_num);
 		i++;
 	}
 	printf("%d\n", i);
 	free(test2);
+
+	//TESTING POKEDEX CON CLAVE NOMBRE POKEMON //
+	printf("\nTESTING POKEDEX CON CLAVE NOMBRE:\n");
+	Pokedex *test3 = (Pokedex*) firstMap(*Pokedex_nombre);
+	i = 0;
+	while(test3 != NULL){
+		printf("\n%d: %d | %s | %s | %s | %s | %d | %s\n", i+1, test3->existencia, test3->nombre, test3->tipo, test3->evolucionPrevia, test3->evolucionPosterior, test3->numeroPokedex, test3->region);
+		test3 = (Pokedex*) nextMap(*Pokedex_nombre);
+		i++;
+	}
+	printf("%d\n", i);
+	free(test3);
 	//FIN TESTING //
 	return;
 

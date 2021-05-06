@@ -79,7 +79,6 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 	getchar();
 
 	Pokedex *aux = (Pokedex*) firstMap(Pokedex_num);
-	assert(aux != NULL);
 
 	//Se recorre la pokedex con 'aux' y se va evaluando si el pokemon posee el tipo que se busca//
 	while(aux != NULL){
@@ -100,7 +99,7 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 				for(int i = 0; i < tallavector; i++){
 					//Si se encuentra tipo se imprime por pantalla//
 					if( strcmp(pokemon_en_evaluacion[i].tipo, tipo) == 0){
-						printf("\n%d - %s - %d - %d - %s\n", aux2->id, aux2->nombre, aux2->PC, aux2->PS, pokemon_en_evaluacion[i].tipo);
+						printf("%d - %s - %d - %d - %s\n", aux2->id, aux2->nombre, aux2->PC, aux2->PS, pokemon_en_evaluacion[i].tipo);
 						existeTipoDePokemon = true;
 						break;// Agregue esta  linea porque tiene sentido :) //
 					}

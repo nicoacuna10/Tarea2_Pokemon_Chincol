@@ -42,7 +42,7 @@ void mostrarPokemonPorRegion(Map *Pokedex_num){
 	printf("Pokemones de la region %s:\n\n", region);
 	while(aux != NULL){
 		if( strcmp(aux->region, region) == 0){
-			printf("%s - %s - %s - %s - %d - %s\n\n", aux->nombre, aux->tipo, aux->evolucionPrevia, aux->evolucionPosterior, aux->numeroPokedex, aux->region);
+			printf("%s - %s - %s - %s - %d - %s\n", aux->nombre, aux->tipo, aux->evolucionPrevia, aux->evolucionPosterior, aux->numeroPokedex, aux->region);
 			contPokemonR += aux->existencia;
 			hayPokemonesDeLaRegion = true;
 		}
