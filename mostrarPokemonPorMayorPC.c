@@ -66,7 +66,8 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 	while(contador < totalPokemon){
 		if(aux->PC == numerosPC[i]){
 			printf("| %d", aux->id);
-			itoa(aux->id, num, 10);
+			sprintf(num, "%d", aux->id);
+			//itoa(aux->id, num, 10);
 			espacios = 3 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -75,12 +76,14 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %d", aux->PC);
-			itoa(aux->PC, num, 10);
+			sprintf(num, "%d", aux->PC);
+			//itoa(aux->PC, num, 10);
 			espacios = 6 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %d", aux->PS);
-			itoa(aux->PS, num, 10);
+			sprintf(num, "%d", aux->PS);
+			//itoa(aux->PS, num, 10);
 			espacios = 6 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 

@@ -39,24 +39,24 @@ void liberarPokemon(Map **PokemonUsuario_id, Map **Pokedex_nombre, int *totalPok
 	Pokemon_usuario *aux = (Pokemon_usuario*) eraseMap(*PokemonUsuario_id, &id);
 
 	//TESTING
-	printf("%d - %s - %d - %d - %s\n\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
+	//printf("%d - %s - %d - %d - %s\n\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
 
 	// Si se elimino el pokemon del almacenamiento, se descuenta 1 la existencia de la Pokedex
-	if(aux){
+	if(aux != NULL){
 		Pokedex *registro = (Pokedex*) searchMap(*Pokedex_nombre, aux->nombre);
 		if(registro->existencia > 0) registro->existencia--;
 		
 
 		//Testing
-		printf("%s - %d - %s - %s - %s - %d - %s\n\n", registro->nombre, registro->existencia, registro->tipo, registro->evolucionPrevia, registro->evolucionPosterior, registro->numeroPokedex, registro->region);
+		//printf("%s - %d - %s - %s - %s - %d - %s\n\n", registro->nombre, registro->existencia, registro->tipo, registro->evolucionPrevia, registro->evolucionPosterior, registro->numeroPokedex, registro->region);
 	
-		printf("Pokemon eliminado\n\n");
+		printf("Pokemon eliminado con exito!\n\n");
 		
 		*totalPokemon = *totalPokemon - 1;
 	}
 	
 
-	if(!aux) printf("No existe registro de pokemon con id ingresado\n\n");
+	if(aux == NULL) printf("No existe registro de pokemon con id ingresado\n\n");
 
 	free(aux);
 	return;

@@ -54,7 +54,7 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 
 	aux = (Pokedex*) firstMap(Pokedex_num);
 	int i = 0, k, espacios;
-	char num[6];
+	char num[10];
 
 	printf("Total Pokemon Pokedex: %d\n", totalPokemonPokedex);
 	printf(" ---------------------------------------------------------------------------------------------------------------------------------------------------------------- \n");
@@ -80,7 +80,8 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %d", aux->numeroPokedex);
-			itoa(aux->numeroPokedex, num, 10);
+			sprintf(num, "%d", aux->numeroPokedex);
+			//itoa(aux->numeroPokedex, num, 10);
 			espacios = 20 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -89,7 +90,8 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %d", aux->existencia);
-			itoa(aux->existencia, num, 10);
+			sprintf(num, "%d", aux->existencia);
+			//itoa(aux->existencia, num, 10);
 			espacios = 10 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
