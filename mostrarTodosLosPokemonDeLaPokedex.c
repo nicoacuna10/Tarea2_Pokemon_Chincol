@@ -64,7 +64,7 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 	while(i < totalPokemonPokedex){
 		if(numerosOrdenadosDeLaPokedex[i] == aux->numeroPokedex){
 			printf("| %s", aux->nombre);
-			int espacios = 20 - strlen(aux->nombre);
+			espacios = 20 - strlen(aux->nombre);
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %s", aux->tipo);
@@ -105,6 +105,7 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 	}
 	printf("%d\n", i);
 	free(aux);
+	free(numerosOrdenadosDeLaPokedex);
 	printf("Funcion mostrar finalizada con exito\n\n");
 	return;
 }

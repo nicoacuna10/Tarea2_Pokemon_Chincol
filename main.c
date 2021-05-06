@@ -61,7 +61,7 @@ void menu(int *opcion);
 
 void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUsuario_id, Map **Pokedex_num , Map **Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
 void pokemonAtrapado(Map *MapaPokemon, Map *Pokedex_num, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex);
-void evolucionarPokemon(Map *PokemonUsuario_id, Map *Pokedex_nombre);
+void evolucionarPokemon(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nombre);
 void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num);
 void buscarMisPokemonPorNombre(Map *PokemonUsuario_id);
 void buscarPorNombreEnPokedex(Map *Pokedex_nombre);
@@ -86,7 +86,7 @@ int main(void){
 		if(opcionElegida == 0) break;
 		if(opcionElegida == 1) importarExportarPokemonDesdeUnArchivo(nombre_archivo, &PokemonUsuario_id, &Pokedex_num, &Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
 		if(opcionElegida == 2) pokemonAtrapado(PokemonUsuario_id, Pokedex_num, Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
-		if(opcionElegida == 3) evolucionarPokemon(PokemonUsuario_id, Pokedex_nombre);
+		if(opcionElegida == 3) evolucionarPokemon(PokemonUsuario_id, Pokedex_num, Pokedex_nombre);
 		if(opcionElegida == 4) buscarMisPokemonPorTipo(PokemonUsuario_id, Pokedex_num);
 		if(opcionElegida == 5) buscarMisPokemonPorNombre(PokemonUsuario_id);
 		if(opcionElegida == 6) buscarPorNombreEnPokedex(Pokedex_nombre);
