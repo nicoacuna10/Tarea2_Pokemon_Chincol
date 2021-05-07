@@ -85,7 +85,7 @@ void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_n
 		strcpy(agregarPokemonAPokedex->evolucionPosterior, "No tiene\0");
 		strcpy(agregarPokemonAPokedex->region, pokemonDeEntrada->region);
 		agregarPokemonAPokedex->existencia = 1;
-		agregarPokemonAPokedex->numeroPokedex = pokemonDeEntrada->numeroPokedex;
+		agregarPokemonAPokedex->numeroPokedex = pokemonDeEntrada->numeroPokedex+1;
 		insertMap(Pokedex_num, &agregarPokemonAPokedex->numeroPokedex, agregarPokemonAPokedex);
 		insertMap(Pokedex_nombre, agregarPokemonAPokedex->nombre, agregarPokemonAPokedex);
 		//free(agregarPokemonAPokedex);

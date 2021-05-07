@@ -305,7 +305,7 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 			insertMap(*Pokedex_num, &Px->numeroPokedex, Px);
 			insertMap(*Pokedex_nombre, Px->nombre, Px);
 			*totalPokemonPokedex = *totalPokemonPokedex + 1;
-			// Con estos free no se cae, sin estos free se cae :(
+
 			//free(registro); 
 			//free(registro2);
 		}
