@@ -24,56 +24,79 @@ typedef struct{
 
 
 void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_nombre){
-	if(PokemonUsuario_id == NULL || Pokedex_nombre == NULL){
+	// Si alguno de los mapas no se encuentra inicializado, se cierra función //
+	if(PokemonUsuario_id == NULL || Pokedex_num == NULL || Pokedex_nombre == NULL){
 		printf("Por favor importe datos antes de entrar a esta funcion\n\n");
 		return;
 	}
 
+	// Solicitud de datos por entrada //
 	int id;
 	printf("Ingrese id Pokemon: ");
 	scanf("%d", &id);
 	getchar();
 
-	Pokemon_usuario *aux = (Pokemon_usuario*) searchMap(PokemonUsuario_id, &id);
-	if(!aux){
+	// Se busca el pokemon en el almacenamiento del usuario //
+	Pokemon_usuario *usuario = (Pokemon_usuario*) searchMap(PokemonUsuario_id, &id);
+	if(!usuario){
 		printf("No existe pokemon con la id %d\n\n", id);
-		free(aux);
+		free(usuario);
 		return;
 	}
 
-	// Testing //
-	printf("\n%d | %s | %d | %d | %s\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
+	// Se imprime información del Pokemon a evolucionar//
+	printf("\n%d | %s | %d | %d | %s\n", usuario->id, usuario->nombre, usuario->PC, usuario->PS, usuario->sexo);
 
-	Pokedex *aux2 = (Pokedex*) searchMap(Pokedex_nombre, aux->nombre);
-	if( strcmp(aux2->evolucionPosterior, "No tiene") == 0){
-		printf("El pokemon %s no tiene evolucion posterior\n\n", aux->nombre);
-		free(aux);
-		free(aux2);
+	Pokedex *pokemonDeEntrada = (Pokedex*) searchMap(Pokedex_nombre, usuario->nombre);
+
+	// Si el pokemon no tiene evolución posterior se entrega mensaje por pantalla //
+	if( strcmp(pokemonDeEntrada->evolucionPosterior, "No tiene") == 0){
+		printf("El pokemon %s no tiene evolucion posterior\n\n", usuario->nombre);
+		free(usuario);
+		free(pokemonDeEntrada);
 		return;
 	}
 
-	aux2->existencia--;
-	strcpy(aux->nombre, aux2->evolucionPosterior);
-	aux->PC *= 1.5;
-	aux->PS *= 1.25;
-	Pokedex *aux3 = (Pokedex*) searchMap(Pokedex_nombre, aux2->evolucionPosterior);
-	if(aux3 != NULL) aux2->existencia++;
+	// Se actualiza información de usuario con pokemon evolucionado //
+	pokemonDeEntrada->existencia--;
+	strcpy(usuario->nombre, pokemonDeEntrada->evolucionPosterior);
+	usuario->PC *= 1.5;
+	usuario->PS *= 1.25;
+	Pokedex *pokemonDeSalida= (Pokedex*) searchMap(Pokedex_nombre, pokemonDeEntrada->evolucionPosterior);
+	if(pokemonDeSalida != NULL) pokemonDeEntrada->existencia++;
 	else{
-		strcpy(aux3->nombre, aux2->evolucionPosterior);
-		strcpy(aux3->tipo, aux2->tipo);
-		strcpy(aux3->evolucionPrevia, aux2->nombre);
-		strcpy(aux3->evolucionPosterior, "No tiene\0");
-		strcpy(aux3->region, aux2->region);
-		aux3->existencia = 1;
-		aux3->numeroPokedex = aux2->numeroPokedex;
-		insertMap(Pokedex_num, &aux3->numeroPokedex, aux3);
-		insertMap(Pokedex_nombre, aux3->nombre, aux3);
+		// Inicialización de variables //
+		Pokedex *agregarPokemonAPokedex = (Pokedex*)malloc(sizeof(Pokedex));
+		agregarPokemonAPokedex->nombre = (char *)malloc(50 * sizeof(char));
+		assert(agregarPokemonAPokedex->nombre != NULL);
+		agregarPokemonAPokedex->tipo = (char *)malloc(30 * sizeof(char));
+		assert(agregarPokemonAPokedex->tipo != NULL);
+		agregarPokemonAPokedex->evolucionPrevia = (char *)malloc(20 * sizeof(char));
+		assert(agregarPokemonAPokedex->evolucionPrevia != NULL);
+		agregarPokemonAPokedex->evolucionPosterior = (char *)malloc(20 * sizeof(char));
+		assert(agregarPokemonAPokedex->evolucionPosterior != NULL);
+		agregarPokemonAPokedex->region = (char *)malloc(20 * sizeof(char));
+		assert(agregarPokemonAPokedex->region != NULL);
+
+		// Copia de datos a mapa Pokedex //
+		strcpy(agregarPokemonAPokedex->nombre, pokemonDeEntrada->evolucionPosterior);
+		strcpy(agregarPokemonAPokedex->tipo, pokemonDeEntrada->tipo);
+		strcpy(agregarPokemonAPokedex->evolucionPrevia, pokemonDeEntrada->nombre);
+		strcpy(agregarPokemonAPokedex->evolucionPosterior, "No tiene\0");
+		strcpy(agregarPokemonAPokedex->region, pokemonDeEntrada->region);
+		agregarPokemonAPokedex->existencia = 1;
+		agregarPokemonAPokedex->numeroPokedex = pokemonDeEntrada->numeroPokedex;
+		insertMap(Pokedex_num, &agregarPokemonAPokedex->numeroPokedex, agregarPokemonAPokedex);
+		insertMap(Pokedex_nombre, agregarPokemonAPokedex->nombre, agregarPokemonAPokedex);
+		//free(agregarPokemonAPokedex);
 	}
 
 
-	printf("%d - %s - %d - %d - %s\n\n", aux->id, aux->nombre, aux->PC, aux->PS, aux->sexo);
-	free(aux);
-	free(aux2);
-	free(aux3);
+	printf("\n%d | %s | %d | %d | %s\n\n", usuario->id, usuario->nombre, usuario->PC, usuario->PS, usuario->sexo);
+	printf("Pokemon evolucionado exitosamente!\n\n");
+
+	free(usuario);
+	free(pokemonDeEntrada);
+	free(pokemonDeSalida);
 	return;
 }
