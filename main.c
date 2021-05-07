@@ -74,19 +74,19 @@ int main(void){
 	int opcionElegida, totalPokemon = 0, totalPokemonPokedex = 0;
 	char nombre_archivo[100];
 
-	// CREACION MAPAS //
-	Map *PokemonUsuario_id = NULL; // ALMACENAMIENTO DEL USUARIO CON LLAVE EL ID DEL POKEMON
-	Map *Pokedex_num = NULL; // POKEDEX CON LLAVE EL NUMERO DE LA POKEDEX
-	Map *Pokedex_nombre = NULL; // POKEDEX CON LLAVE EL NOMBRE DEL POKEMON
+	// DEFINICIÓN MAPAS //
+	Map *PokemonUsuario_id = NULL; 
+	Map *Pokedex_num = NULL; 
+	Map *Pokedex_nombre = NULL; 
 
 	do{
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
 		if(opcionElegida == 1){
-			if(PokemonUsuario_id == NULL) PokemonUsuario_id = createMap(is_equal_int);
-			if(Pokedex_num == NULL) Pokedex_num = createMap(is_equal_int);
+			if(PokemonUsuario_id == NULL) PokemonUsuario_id = createMap(is_equal_int); // ALMACENAMIENTO DEL USUARIO CON LLAVE EL ID DEL POKEMON
+			if(Pokedex_num == NULL) Pokedex_num = createMap(is_equal_int); // POKEDEX CON LLAVE EL NUMERO DE LA POKEDEX
 			if(Pokedex_nombre == NULL){
-				Pokedex_nombre = createMap(is_equal_string);
+				Pokedex_nombre = createMap(is_equal_string); // POKEDEX CON LLAVE EL NOMBRE DEL POKEMON
 				setSortFunction(Pokedex_nombre, lower_than_string);
 			}
 			importarExportarPokemonDesdeUnArchivo(nombre_archivo, &PokemonUsuario_id, &Pokedex_num, &Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
