@@ -82,7 +82,8 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 
 	//EXPORTAR ARCHIVO .CSV//
 	if(opcionIoE[0] == '2'){
-		if(PokemonUsuario_id == NULL || Pokedex_nombre == NULL){
+		// Si no se ha importado, se muestra un mensaje indicando que primero importe un archivo .csv //
+		if(*totalPokemon == 0 || *totalPokemonPokedex == 0){
 			printf("\nImportar!\n");
 			return;
 		}
@@ -98,21 +99,29 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 		}
 		
 		char linea[1000];
+		int contadorTipos;
 		Pokemon_usuario *PokUser;
 		Pokedex *Px;
 
 		//ESCRIBIR INFO EN ARCHIVO A EXPORTAR //
 		fprintf( fp, "id,nombre,tipos,pc,ps,sexo,evolucion previa,evolucion posterior,numero pokedex,region\n");
 
+		// Se recorre el almacenamiento del usuario para escribir la información en el archivo a exportar //
 		PokUser = (Pokemon_usuario*) firstMap(*PokemonUsuario_id);
 		while(PokUser != NULL){
+
+			// Se busca la información del pokemon en la Pokedex
 			Px = (Pokedex*) searchMap(*Pokedex_nombre, PokUser->nombre);
 			
-			int contadorTipos = 1;
+			/* Se usa un contador para obtener la cantidad de tipos que tiene el Pokemon. El contador comienza en uno,
+			   se recorre la cadena de caracteres y cada vez que se encuentre una coma se suma 1 al contador */
+			contadorTipos = 1;
 			for(int i = 0; Px->tipo[i]; i++){
 				if(Px->tipo[i] == ',') contadorTipos++;
 			}
 
+			/* Se escribe en el archivo la información de el pokemon. Si el pokemon tiene más de un tipo, estos se 
+			   escriben entre comillas.*/
 			if(contadorTipos > 1){
 				fprintf(fp, "%d,%s,\"%s\",%d,%d,%s,%s,%s,%d,%s\n", PokUser->id, PokUser->nombre, Px->tipo, PokUser->PC, PokUser->PS, PokUser->sexo, Px->evolucionPrevia, Px->evolucionPosterior, Px->numeroPokedex, Px->region);
 			}else fprintf(fp, "%d,%s,%s,%d,%d,%s,%s,%s,%d,%s\n", PokUser->id, PokUser->nombre, Px->tipo, PokUser->PC, PokUser->PS, PokUser->sexo, Px->evolucionPrevia, Px->evolucionPosterior, Px->numeroPokedex, Px->region);
@@ -289,10 +298,11 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 		bool PokemonRepetido = false;
 		Pokedex *registro, *registro2;
 		if(*PokemonUsuario_id != NULL && *Pokedex_num != NULL && *Pokedex_nombre != NULL){
-			// Se busca el pokemon en la pokedex
+			// Se busca el pokemon en la pokedex.
 			registro = (Pokedex*) searchMap(*Pokedex_nombre, PokUser->nombre);
 			registro2 = (Pokedex*) searchMap(*Pokedex_num, &Px->numeroPokedex);
 
+			// Si se encuentra el la pokedex, se suma 1 a la existencia de dicho pokemon. //
 			if(registro!= NULL && registro2 != NULL){
 				registro->existencia++;
 				PokemonRepetido = true;
@@ -300,6 +310,7 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 			
 		}
 		
+		// Si no existe registro previo en la Pokedex, se agrega el pokemon al registro de la Pokedex. //
 		if(PokemonRepetido == false){
 			// INSERTAR EN MAPAS POKEDEX //
 			insertMap(*Pokedex_num, &Px->numeroPokedex, Px);
@@ -355,7 +366,6 @@ void importarExportarPokemonDesdeUnArchivo(char *nombre_archivo, Map **PokemonUs
 	printf("%d\n", i);
 	free(test3);
 	//FIN TESTING //
-	return;
 
-	/* EL ULTIMO POKEMON NO COPIA BIEN EL ULTIMO CARACTER DE LA REGION*/
+	return;
 }

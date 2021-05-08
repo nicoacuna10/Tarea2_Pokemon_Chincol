@@ -71,10 +71,12 @@ void liberarPokemon(Map **PokemonUsuario_id, Map **Pokedex_nombre, int *totalPok
 void mostrarPokemonPorRegion(Map *Pokedex_num);
 
 int main(void){
+
+	// Declaración de variables //
 	int opcionElegida, totalPokemon = 0, totalPokemonPokedex = 0;
 	char nombre_archivo[100];
 
-	// DEFINICIÓN MAPAS //
+	// Declaración de mapas. Se inicializan cuando se ingrese a la función importar. //
 	Map *PokemonUsuario_id = NULL; 
 	Map *Pokedex_num = NULL; 
 	Map *Pokedex_nombre = NULL; 
@@ -83,10 +85,12 @@ int main(void){
 		menu(&opcionElegida);
 		if(opcionElegida == 0) break;
 		if(opcionElegida == 1){
+			// Creación de mapas en el caso de que estén en NULL //
 			if(PokemonUsuario_id == NULL) PokemonUsuario_id = createMap(is_equal_int); // ALMACENAMIENTO DEL USUARIO CON LLAVE EL ID DEL POKEMON
 			if(Pokedex_num == NULL) Pokedex_num = createMap(is_equal_int); // POKEDEX CON LLAVE EL NUMERO DE LA POKEDEX
 			if(Pokedex_nombre == NULL){
 				Pokedex_nombre = createMap(is_equal_string); // POKEDEX CON LLAVE EL NOMBRE DEL POKEMON
+				// Se ordena alfabéticamente el mapa por clave nombre // 
 				setSortFunction(Pokedex_nombre, lower_than_string);
 			}
 			importarExportarPokemonDesdeUnArchivo(nombre_archivo, &PokemonUsuario_id, &Pokedex_num, &Pokedex_nombre, &totalPokemon, &totalPokemonPokedex);
@@ -102,6 +106,7 @@ int main(void){
 		if(opcionElegida == 10) mostrarPokemonPorRegion(Pokedex_num);
 	}while(menu != 0);
 
+	// Liberación de Mapas //
 	free(PokemonUsuario_id);
 	free(Pokedex_num);
 	free(Pokedex_nombre);

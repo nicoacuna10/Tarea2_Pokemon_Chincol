@@ -61,6 +61,7 @@ Pokemon_y_sus_tipos *llenarVector(char *vectorTipos, Pokemon_y_sus_tipos *pokemo
 }
 
 void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
+	// Si los mapas no se encuentran inicializados, se imprime un mensaje y se vuelve al menu de opciones. //
 	if(PokemonUsuario_id == NULL || Pokedex_num == NULL){
 		printf("No se tiene registro de pokemones. Por favor importe desde un archivo\n\n");
 		return;
@@ -69,8 +70,8 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 
 	//Declaración de variables//
 	bool existeTipoDePokemon = false;
-	char tipo[20];	
-	int tallavector;
+	char tipo[20], num[7];	
+	int tallavector, j = 0, espacios, k;
 	Pokemon_y_sus_tipos* pokemon_en_evaluacion = NULL;
 
 	//Lectura de entrada//
@@ -99,9 +100,44 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 				for(int i = 0; i < tallavector; i++){
 					//Si se encuentra tipo se imprime por pantalla//
 					if( strcmp(pokemon_en_evaluacion[i].tipo, tipo) == 0){
-						printf("%d - %s - %d - %d - %s\n", aux2->id, aux2->nombre, aux2->PC, aux2->PS, pokemon_en_evaluacion[i].tipo);
+						if(j == 0){
+							printf(" ---------------------------------------------------------------------------------\n");
+							printf("| ID  | NOMBRE               | PC     | PS     | SEXO      | TIPO                 |\n");
+							printf(" ---------------------------------------------------------------------------------\n");
+						}
+						printf("| %d", aux2->id);
+						sprintf(num, "%d", aux2->id);
+						espacios = 3 - strlen(num);
+						for(k = 0; k < espacios; k++) printf(" ");
+
+						printf(" | %s", aux2->nombre);
+						espacios = 20 - strlen(aux2->nombre);
+						for(k = 0; k < espacios; k++) printf(" ");
+
+						printf(" | %d", aux2->PC);
+						sprintf(num, "%d", aux2->PC);
+						espacios = 6 - strlen(num);
+						for(k = 0; k < espacios; k++) printf(" ");
+
+						printf(" | %d", aux2->PS);
+						sprintf(num, "%d", aux2->PS);
+						espacios = 6 - strlen(num);
+						for(k = 0; k < espacios; k++) printf(" ");
+
+						printf(" | %s", aux2->sexo);
+						espacios = 9 - strlen(aux2->sexo);
+						for(k = 0; k <espacios; k++) printf(" ");
+						
+
+						printf(" | %s", pokemon_en_evaluacion[i].tipo);
+						espacios = 20 - strlen(pokemon_en_evaluacion[i].tipo);
+						for(k = 0; k < espacios; k++) printf(" ");
+
+						//printf("%d - %s - %d - %d - %s\n", aux2->id, aux2->nombre, aux2->PC, aux2->PS, pokemon_en_evaluacion[i].tipo);
+						printf("|\n ---------------------------------------------------------------------------------\n");
 						existeTipoDePokemon = true;
-						break;// Agregue esta  linea porque tiene sentido :) //
+						j++;
+						break;
 					}
 				}
 			}

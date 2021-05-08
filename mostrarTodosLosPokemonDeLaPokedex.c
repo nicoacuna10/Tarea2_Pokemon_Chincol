@@ -48,10 +48,10 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 		aux = nextMap(Pokedex_num);	
 	}
 
-
+	// Se ordena el vector, en función del número de Pokedex de menor a mayor. //
 	qsort(numerosOrdenadosDeLaPokedex, totalPokemonPokedex, sizeof(int), cmpFunc);
 
-
+	// Se recorre la Pokedex y si el numero de la Pokedex coincide con el del arreglo con los numeros ordenados, se imprime por pantalla la información del Pokemon. //
 	aux = (Pokedex*) firstMap(Pokedex_num);
 	int i = 0, k, espacios;
 	char num[10];
@@ -81,7 +81,6 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 
 			printf(" | %d", aux->numeroPokedex);
 			sprintf(num, "%d", aux->numeroPokedex);
-			//itoa(aux->numeroPokedex, num, 10);
 			espacios = 20 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -91,7 +90,6 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 
 			printf(" | %d", aux->existencia);
 			sprintf(num, "%d", aux->existencia);
-			//itoa(aux->existencia, num, 10);
 			espacios = 10 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -104,7 +102,7 @@ void mostrarTodosLosPokemonDeLaPokedex(Map *Pokedex_num, int totalPokemonPokedex
 		if(aux == NULL) aux = (Pokedex*) firstMap(Pokedex_num);
 	}
 	printf("%d\n", i);
-	free(aux);
+	//free(aux);
 	free(numerosOrdenadosDeLaPokedex);
 	printf("Funcion mostrar finalizada con exito\n\n");
 	return;
