@@ -2,5 +2,4 @@ bin/*
 obj/*
 
 
-main
-exe
+main.exe
