@@ -40,7 +40,7 @@ void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_n
 	Pokemon_usuario *usuario = (Pokemon_usuario*) searchMap(PokemonUsuario_id, &id);
 	if(!usuario){
 		printf("No existe pokemon con la id %d\n\n", id);
-		free(usuario);
+		//free(usuario);
 		return;
 	}
 
@@ -52,8 +52,8 @@ void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_n
 	// Si el pokemon no tiene evolución posterior se entrega mensaje por pantalla //
 	if( strcmp(pokemonDeEntrada->evolucionPosterior, "No tiene") == 0){
 		printf("El pokemon %s no tiene evolucion posterior\n\n", usuario->nombre);
-		free(usuario);
-		free(pokemonDeEntrada);
+		//free(usuario);
+		//free(pokemonDeEntrada);
 		return;
 	}
 
@@ -95,8 +95,8 @@ void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_n
 	printf("\n%d | %s | %d | %d | %s\n\n", usuario->id, usuario->nombre, usuario->PC, usuario->PS, usuario->sexo);
 	printf("Pokemon evolucionado exitosamente!\n\n");
 
-	free(usuario);
-	free(pokemonDeEntrada);
-	free(pokemonDeSalida);
+	//free(usuario);
+	//free(pokemonDeEntrada);
+	//free(pokemonDeSalida);
 	return;
 }
