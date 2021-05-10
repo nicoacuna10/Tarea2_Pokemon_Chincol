@@ -81,7 +81,7 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 
 	Pokedex *aux = (Pokedex*) firstMap(Pokedex_num);
 
-	//Se recorre la pokedex con 'aux' y se va evaluando si el pokemon posee el tipo que se busca//
+	//Se recorre por fuerza bruta la pokedex con 'aux' y se va evaluando si el pokemon posee el tipo que se busca//
 	while(aux != NULL){
 		//Se busca primero la cantidad de tipos que posee el pokemon para inicializar vector//
 		tallavector = totalTipos(aux->tipo);
@@ -133,7 +133,6 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 						espacios = 20 - strlen(pokemon_en_evaluacion[i].tipo);
 						for(k = 0; k < espacios; k++) printf(" ");
 
-						//printf("%d - %s - %d - %d - %s\n", aux2->id, aux2->nombre, aux2->PC, aux2->PS, pokemon_en_evaluacion[i].tipo);
 						printf("|\n ---------------------------------------------------------------------------------\n");
 						existeTipoDePokemon = true;
 						j++;
@@ -142,22 +141,13 @@ void buscarMisPokemonPorTipo(Map *PokemonUsuario_id, Map *Pokedex_num){
 				}
 			}
 
-			//Testing
-			/*for(int i = 0; i < tallavector; i++){
-				printf("%s ", pokemon_en_evaluacion[i].tipo);
-			}
-			printf("\nTotal tipos: %d\n", tallavector);
-			*/
-			//Fin Testing//
 			aux2 = (Pokemon_usuario*) nextMap(PokemonUsuario_id);
 		}
-		free(aux2);
 		//Se libera memoria del vector dinámico que guarda cada uno de los tipos que posee el pokemon//
 		free(pokemon_en_evaluacion);
 		//Se continua con el siguiente pokemon del mapa//
 		aux = (Pokedex*) nextMap(Pokedex_num);
 	}
-	free(aux);
 	//En caso de nunca haberse cambiado esta variable a true, signfica que no hay pokemon registrado con tipo ingresado//
 	if(existeTipoDePokemon == false) printf("\nNO EXISTE REGISTRO DE POKEMON DE TIPO INGRESADO\n");
 	return;

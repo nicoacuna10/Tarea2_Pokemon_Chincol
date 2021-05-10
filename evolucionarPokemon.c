@@ -63,7 +63,7 @@ void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_n
 	usuario->PC *= 1.5;
 	usuario->PS *= 1.25;
 	Pokedex *pokemonDeSalida= (Pokedex*) searchMap(Pokedex_nombre, pokemonDeEntrada->evolucionPosterior);
-	if(pokemonDeSalida != NULL) pokemonDeEntrada->existencia++;
+	if(pokemonDeSalida != NULL) pokemonDeSalida->existencia++;
 	else{
 		// Inicialización de variables //
 		Pokedex *agregarPokemonAPokedex = (Pokedex*)malloc(sizeof(Pokedex));
@@ -88,15 +88,12 @@ void evolucionarPokemon(Map* PokemonUsuario_id, Map* Pokedex_num, Map* Pokedex_n
 		agregarPokemonAPokedex->numeroPokedex = pokemonDeEntrada->numeroPokedex+1;
 		insertMap(Pokedex_num, &agregarPokemonAPokedex->numeroPokedex, agregarPokemonAPokedex);
 		insertMap(Pokedex_nombre, agregarPokemonAPokedex->nombre, agregarPokemonAPokedex);
-		//free(agregarPokemonAPokedex);
+
 	}
 
-
+	// Se imprime actualización de datos //
 	printf("\n%d | %s | %d | %d | %s\n\n", usuario->id, usuario->nombre, usuario->PC, usuario->PS, usuario->sexo);
 	printf("Pokemon evolucionado exitosamente!\n\n");
 
-	//free(usuario);
-	//free(pokemonDeEntrada);
-	//free(pokemonDeSalida);
 	return;
 }

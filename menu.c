@@ -14,7 +14,7 @@ void menu(int *opcion){
 		printf(" ---------------------------------------------------- \n");
 		printf("| opcion 1: Importar desde archivo                   |\n");
 		printf("| opcion 2: Ingresar pokemon atrapado                |\n");
-		printf("| opcion 3: Buscar siguiente evoluacion              |\n");
+		printf("| opcion 3: Buscar siguiente evolucion               |\n");
 		printf("| opcion 4: Buscar  mis pokemons por tipo            |\n");
 		printf("| opcion 5: Buscar mis pokemons por nombre           |\n");
 		printf("| opcion 6: Buscar nombre en pokedex                 |\n");

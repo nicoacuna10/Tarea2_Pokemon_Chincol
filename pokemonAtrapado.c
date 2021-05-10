@@ -24,20 +24,22 @@ typedef struct{
 }Pokedex;
 
 void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nombre, int *totalPokemon, int *totalPokemonPokedex){
+	// Si no se encuentran inicializados los mapas, se cierra función //
 	if(PokemonUsuario_id == NULL || Pokedex_num == NULL || Pokedex_nombre == NULL){
 		printf("Por favor importe archivos antes de iniciar esta funcion\n\n");
 		return;
 	}
 
+	// Si se supera el máximo, se cierra función //
 	if( *totalPokemon == 100){
 		printf("No se puede ingresar otro pokemon porque haz llenado el limite de memoria por usuario.\n");
 		printf("Usa la funcion librerar pokemon primero para liberar memoria para un nuevo ingreso\n\n");
 		return;
 	}
 
-	//Incialización de variables//
+	//Incialización de variable//
 	char nombre[50];
-	//bool existiaPokemonEnPokedex = false;
+
 	memset(nombre, '\0', 50);
 
 	//Se pide nombre del pokemon por usuario//
@@ -60,7 +62,6 @@ void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nomb
 		PokUser->sexo = (char *) malloc(9 * sizeof(char) );
 		assert(PokUser->sexo != NULL);
 	
-		//PREGUNTAR SI hay que poner id por usuario o no//
 		//Se ingresan datos por usuario//
 		printf("Por favor ingrese ID: ");
 		scanf("%d", &PokUser->id);
@@ -77,11 +78,8 @@ void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nomb
 		//Se suma 1 a la existencia de la pokedex
 		busquedaEnPokedex->existencia++;
 
-		//Testing//
-		printf("%s %d %d %s\n\n", PokUser->nombre, PokUser->PC, PokUser->PS, PokUser->sexo);
-
 		// Se inserta en el almacenamiento del usuario
-		insertMap(PokemonUsuario_id, &PokUser->id, PokUser); // HAY QUE REVISAR SI ID SE CREA O SE PIDO POR USUARIO//
+		insertMap(PokemonUsuario_id, &PokUser->id, PokUser);
 
 		*totalPokemon = *totalPokemon + 1;
 		return;
@@ -163,5 +161,6 @@ void pokemonAtrapado(Map *PokemonUsuario_id, Map *Pokedex_num, Map *Pokedex_nomb
 		*totalPokemonPokedex = *totalPokemonPokedex + 1;
 	}
 
+	printf("Pokemon atrpado exitosamente !\n");
 	return;
 }

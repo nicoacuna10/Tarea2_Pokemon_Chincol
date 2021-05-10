@@ -82,6 +82,5 @@ void buscarPorNombreEnPokedex(Map *Pokedex_nombre){
 	
 	// Si no se encuentran Pokemones con el nombre ingresado, se indica que no existe registro
 	if(!aux) printf("No existe registro de %s en la Pokedex\n", nombre);
-	//free(aux);
 	return;
 }

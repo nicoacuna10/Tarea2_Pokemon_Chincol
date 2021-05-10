@@ -30,6 +30,7 @@ int comparar(const void *a, const void *b){
 }
 
 void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
+	// Si el mapa no está inicializado, se cierra la función //
 	if(PokemonUsuario_id == NULL){
 		printf("Por favor importe datos antes de entrar a esta funcion\n\n");
 		return;
@@ -44,7 +45,6 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 	
 	//Se guardan numeros en el vector//
 	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
-
 	for(i = 0; i < totalPokemon; i++){
 		numerosPC[i] = aux->PC;
 		aux = (Pokemon_usuario*) nextMap(PokemonUsuario_id);
@@ -52,11 +52,10 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 
 	//Se hace quicksort a numerosPc//
 	qsort(numerosPC, totalPokemon, sizeof(int), comparar);
-	i = 0;
 
 	// Se busca por metodo de fuerza bruta los pokemones que posean el PC segun el vector 'numerosPC'//
+	i = 0;
 	aux = (Pokemon_usuario *) firstMap(PokemonUsuario_id);
-
 	int espacios;
 	char num[7];
 	printf(" ----------------------------------------------------------\n");
@@ -67,7 +66,6 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 		if(aux->PC == numerosPC[i]){
 			printf("| %d", aux->id);
 			sprintf(num, "%d", aux->id);
-			//itoa(aux->id, num, 10);
 			espacios = 3 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -77,13 +75,11 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 
 			printf(" | %d", aux->PC);
 			sprintf(num, "%d", aux->PC);
-			//itoa(aux->PC, num, 10);
 			espacios = 6 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %d", aux->PS);
 			sprintf(num, "%d", aux->PS);
-			//itoa(aux->PS, num, 10);
 			espacios = 6 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -100,6 +96,7 @@ void mostrarPokemonPorMayorPC(Map *PokemonUsuario_id, int totalPokemon){
 		if(aux == NULL) aux =(Pokemon_usuario*) firstMap(PokemonUsuario_id);
 	}
 
-	// OJO SE IMPRIMEN SOLO 92 POKEMONES EN VEZ DE LOS 96//
+	// Se libera memoria del vector dinámico //
+	free(numerosPC);
 	return;
 }

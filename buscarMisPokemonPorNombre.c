@@ -38,7 +38,7 @@ void buscarMisPokemonPorNombre(Map *PokemonUsuario_id){
 	scanf("%[^\n]s", nombre);
 	getchar();
 
-	// Se recorre Mapa Pokemon y se imprimen los Pokemones del almacenamiento del usuario que corresponden con el nombre ingresado
+	// Se recorre por fuerza bruta y se imprimen los Pokemones del almacenamiento del usuario que corresponden con el nombre ingresado //
 	Pokemon_usuario *aux = (Pokemon_usuario*) firstMap(PokemonUsuario_id);
 
 	printf("Pokemones %s:\n", nombre);
@@ -51,7 +51,6 @@ void buscarMisPokemonPorNombre(Map *PokemonUsuario_id){
 			}
 			printf("| %d", aux->id);
 			sprintf(num, "%d", aux->id);
-			//itoa(aux->id, num, 10);
 			espacios = 3 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
@@ -61,13 +60,11 @@ void buscarMisPokemonPorNombre(Map *PokemonUsuario_id){
 
 			printf(" | %d", aux->PC);
 			sprintf(num, "%d", aux->PC);
-			//itoa(aux->PC, num, 10);
 			espacios = 6 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
 			printf(" | %d", aux->PS);
 			sprintf(num, "%d", aux->PS);
-			//itoa(aux->PS, num, 10);
 			espacios = 6 - strlen(num);
 			for(k = 0; k < espacios; k++) printf(" ");
 
